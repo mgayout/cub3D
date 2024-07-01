@@ -6,7 +6,7 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 08:14:35 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/01 15:47:16 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/01 15:55:46 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	init_game(t_data *data)
 	data->mlx_win = mlx_new_window(data->mlx, 1500, 800, "cube3D");
 	draw(data);
 	//mlx_loop_hook(data->mlx, &draw, data);
-	mlx_hook(data->mlx_win, KeyRelease, KeyReleaseMask, &press_key, data);
+	mlx_hook(data->mlx_win, KeyPress, KeyPressMask, &press_key, data);
 	mlx_hook(data->mlx_win, 17, 0, &free_all, data);
 	mlx_loop(data->mlx);
 }
