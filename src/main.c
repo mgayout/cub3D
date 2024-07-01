@@ -6,21 +6,41 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 08:14:35 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/01 12:55:19 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/01 15:47:16 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cube3D.h"
 
+void	init_data(t_data *data)
+{
+	t_map	*tmp;
+	int	x;
+	int	y;
+
+	tmp = data->map;
+	x = 0;
+	y = 0;
+	while (tmp)
+	{
+		if (tmp->x > x)
+			x = tmp->x;
+		if (tmp->y > y)
+			y = tmp->y;
+		tmp = tmp->next;
+	}
+	data->x = 0;
+	data->y = 0;
+	data->width = (1500 / x);
+	printf("xmax = %d | width = %d\n", x, data->width);
+	data->height = (800 / y);
+	printf("ymax = %d | height = %d\n", y, data->height);
+	init_img(data);
+}
+
 void	init_game(t_data *data)
 {
-	int	width;
-	int height;
-	
-	width = (data->width - 1) * 32;
-	height = (data->height - 1) * 32;
-	init_img(data);
-	data->mlx_win = mlx_new_window(data->mlx, width, height, "cube3D");
+	data->mlx_win = mlx_new_window(data->mlx, 1500, 800, "cube3D");
 	draw(data);
 	//mlx_loop_hook(data->mlx, &draw, data);
 	mlx_hook(data->mlx_win, KeyRelease, KeyReleaseMask, &press_key, data);
@@ -35,13 +55,15 @@ int	main(int argc, char **argv)
 	
 	if (argc < 2 || argc > 3)
 		return (0);
-	data.mlx = mlx_init();
 	map = NULL;
 	data.map = init_map(map, argv[1]);
-	data.width = last_map(&data.map)->x + 1;
-	data.height = last_map(&data.map)->y + 1;
-	//data.pixel_x = data.height / 64;
-	//data.pixel_y = data.width / 64;
 	print_map(data.map);
-	init_game(&data);
+	if (data.map != NULL && parse_map(&data))
+	{
+		data.mlx = mlx_init();
+		init_data(&data);
+		init_game(&data);
+	}
+	else
+		free_map(&data.map);
 }

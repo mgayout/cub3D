@@ -6,7 +6,7 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 10:33:03 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/01 10:47:40 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/01 14:47:42 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,4 +87,5 @@ void	print_map(t_map *map)
 		printf("%c", map->content);
 		map = map->next;
 	}
+	printf("\n");
 }

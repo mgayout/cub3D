@@ -6,7 +6,7 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 10:41:19 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/01 12:47:18 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/01 15:49:16 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,9 @@ int	draw(t_data *data)
 	while (tmp)
 	{
 		if (tmp->content == '1')
-			mlx_put_image_to_window(data->mlx, data->mlx_win, data->img.voidd, (tmp->x - 1) * data->pixel, (tmp->y - 1) * data->pixel);
-		printf("x = %d | y = %d\n", tmp->x, tmp->y);
-		//else if (tmp->content == 'P')
-			//mlx_put_image_to_window(data->mlx, data->mlx_win, img, tmp->x, tmp->y);
+			mlx_put_image_to_window(data->mlx, data->mlx_win, data->img.wall.mlx_img, (tmp->x - 1) * data->width, (tmp->y - 1) * data->height);
+		else if (tmp->content == 'P')
+			mlx_put_image_to_window(data->mlx, data->mlx_win, data->img.player.mlx_img, (((tmp->x - 1) * data->width)) + data->x, (((tmp->y - 1) * data->height)) + data->y);
 		tmp = tmp->next;
 	}
 	return (0);
