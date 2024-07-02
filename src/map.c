@@ -6,37 +6,46 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 10:33:03 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/01 14:47:42 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/02 15:37:42 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cube3D.h"
 
-t_map	*init_map(t_map *map, char *file)
+void	init_map(t_data *data, char *file)
 {
+	t_map	*map;
+	char	*str;
 	int		fd;
-	char	content;
-	int		x;
+	int		i;
 	int		y;
 
+	map = NULL;
 	fd = open(file, O_RDONLY);
-	x = 1;
-	y = 1;
-	while (read(fd, &content, 1))
+	y = 0;
+	str = get_next_line(fd);
+	while (data->parse_status > 0 || !valid_str(str))
 	{
-		if (content == '\n')
+		data->parse_status -= 1;
+		free(str);
+		str = get_next_line(fd);
+	}
+	while (str)
+	{
+		i = 0;
+		while (str[i])
 		{
-			x = 1;
-			y += 1;
+			if (str[i] == '\n')
+				break ;
+			fill_map(&map, str[i], i, y);
+			i++;
 		}
-		else if (content != '\0')
-		{
-			fill_map(&map, content, x, y);
-			x += 1;
-		}
+		y += 1;
+		free(str);
+		str = get_next_line(fd);
 	}
 	close(fd);
-	return (map);
+	data->map = map;
 }
 
 void	fill_map(t_map **map, char content, int x, int y)

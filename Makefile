@@ -6,7 +6,7 @@
 #    By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/01 07:47:00 by mgayout           #+#    #+#              #
-#    Updated: 2024/07/01 12:00:45 by mgayout          ###   ########.fr        #
+#    Updated: 2024/07/02 15:25:39 by mgayout          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,7 +71,7 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c
 			printf "$(MOVE_CURSOR_UP)$(CLEAR_PREVIOUS_LINE)"; \
 			printf "$(MOVE_CURSOR_UP)$(CLEAR_PREVIOUS_LINE)"; \
     fi
-	@gcc $(CFLAG) -I$(INCLUDE) -c $< -o $@
+	@gcc $(CFLAGS) -I$(INCLUDE) -c $< -o $@
 
 clean:
 	@$(call centered_echo, "\|" "Removing" "objects" "from" "libft" "\|", $(RED))
