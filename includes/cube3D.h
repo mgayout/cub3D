@@ -6,7 +6,7 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 08:03:07 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/02 15:37:17 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/02 17:48:13 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ typedef struct s_pos
 	int					posy;
 	int					moovex;
 	int					moovey;
+	int					xmax;
+	int					ymax;
 }					t_pos;
 
 typedef struct s_texture
@@ -97,6 +99,14 @@ void	print_map(t_map *map);
 //PARSER
 int		parse_map(t_data *data);
 int		valid_char(t_data *data);
+int		valid_color(char *str);
+int		closed_map(t_data *data);
+t_map	*new_map(t_data *data);
+
+//PARSER_UTILS
+char	content_up(t_map *map);
+char	content_down(t_data *data, t_map *map);
+int		ft_atoi_color(char *str);
 
 //IMG
 void	init_img(t_data *data);
@@ -117,6 +127,7 @@ int		*moove_down(t_data *data, int x, int y);
 //FREE
 int		free_all(t_data *data);
 void	free_map(t_map **map);
+void	free_img(t_imgs *img);
 void	free_tab(char **str);
 
 #endif

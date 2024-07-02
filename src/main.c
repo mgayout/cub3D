@@ -6,7 +6,7 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 08:14:35 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/02 15:38:24 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/02 18:01:21 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,16 @@ int	init_arg(t_data *data, char *file)
 	if (init_walls(data, file))
 		return (1);
 	init_map(data, file);
-	print_map(data->map);
+	//print_map(data->map);
+	init_data(data);
 	return (0);
 }
 
 void	init_data(t_data *data)
 {
 	t_map	*tmp;
-	int	x;
-	int	y;
+	int		x;
+	int		y;
 
 	tmp = data->map;
 	x = 0;
@@ -49,15 +50,17 @@ void	init_data(t_data *data)
 			y = tmp->y;
 		tmp = tmp->next;
 	}
-	data->pos.width = (1500 / (x + 1));
+	data->pos.xmax = x + 1;
+	data->pos.width = (1500 / data->pos.xmax);
 	if (data->pos.width % 2 != 0)
 		data->pos.width += 1;
-	data->pos.height = (800 / (y + 1));
+	data->pos.ymax = y + 1;
+	data->pos.height = (800 / data->pos.ymax);
 	if (data->pos.height % 2 != 0)
 		data->pos.height += 1;
 	data->pos.moovex = 0;
 	data->pos.moovey = 0;
-	init_img(data);
+	
 }
 
 void	init_game(t_data *data)
@@ -83,10 +86,13 @@ int	main(int argc, char **argv)
 	if (data.map != NULL && parse_map(&data))
 	{
 		data.mlx = mlx_init();
-		init_data(&data);
+		init_img(&data);
 		init_game(&data);
 	}
 	else
+	{
 		free_map(&data.map);
+		free_img(&data.img);
+	}
 	return (0);
 }

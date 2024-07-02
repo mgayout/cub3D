@@ -6,7 +6,7 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 10:38:48 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/02 12:50:02 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/02 17:55:57 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ int	press_key(int key, t_data *data)
 	y = 0;
 	if (key == XK_Escape)
 		free_all(data);
-	else if (key == XK_w || key == XK_Up)
+	else if (key == XK_w)
 		y -= (data->pos.height / 2);
-	else if (key == XK_a || key == XK_Left)
+	else if (key == XK_a)
 		x -= (data->pos.width / 2);
-	else if (key == XK_d || key == XK_Right)
+	else if (key == XK_d)
 		x += (data->pos.width / 2);
-	else if (key == XK_s || key == XK_Down)
+	else if (key == XK_s)
 		y += (data->pos.height / 2);
 	else
 		return (0);
