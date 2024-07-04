@@ -6,7 +6,7 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 12:16:55 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/02 15:39:38 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/04 19:34:27 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,68 +14,82 @@
 
 int	init_walls(t_data *data, char *file)
 {
-	char	*str;
 	char	**split_arg;
 	int		status;
-	int		fd;
+	int		i;
 
-
-	fd = open(file, O_RDONLY);
-	str = get_next_line(fd);
+	split_arg = ft_split(file, '\n');
 	status = 0;
-	data->parse_status = 1;
-	while (status != 6)
+	i = 0;
+	while (split_arg[i] && status != 6)
 	{
-		if (valid_str(str))
+		if (check_line(split_arg[i]) && check_arg(split_arg[i]))
+			status += add_texture(data, split_arg[i]);
+		else if (check_line(split_arg[i]) && !check_arg(split_arg[i]))
 		{
-			split_arg = ft_split(str, ' ');
-			status = add_img(data, split_arg, status);
+			free_texture(&data->texture);
 			free_tab(split_arg);
+			free(data->file);
+			print_error("Error\nBad texture\n", 1);
 		}
-		if (status == -1)
-		{
-			close(fd);
-			return (1);
-		}
-		free(str);
-		str = get_next_line(fd);
-		data->parse_status += 1;
+		i++;
 	}
-	free(str);
-	close(fd);
-	return (0);
-}
-
-int	add_img(t_data *data, char **arg, int status)
-{
-	if (!ft_strncmp(arg[0], "NO", 3) && !data->img.n_wall)
-		data->img.n_wall = ft_strdup(arg[1]);
-	else if (!ft_strncmp(arg[0], "EA", 3) && !data->img.e_wall)
-		data->img.e_wall = ft_strdup(arg[1]);
-	else if (!ft_strncmp(arg[0], "SO", 3) && !data->img.s_wall)
-		data->img.s_wall = ft_strdup(arg[1]);
-	else if (!ft_strncmp(arg[0], "WE", 3) && !data->img.w_wall)
-		data->img.w_wall = ft_strdup(arg[1]);
-	else if (!ft_strncmp(arg[0], "C", 2) && !data->img.c_wall)
-		data->img.c_wall = ft_strdup(arg[1]);
-	else if (!ft_strncmp(arg[0], "F", 2) && !data->img.f_wall)
-		data->img.f_wall = ft_strdup(arg[1]);
-	else
+	free_tab(split_arg);
+	if (status != 6)
 		return (-1);
-	status += 1;
-	return (status);
+	return (i);	
 }
 
-int	valid_str(char *str)
+int	check_line(char *str)
 {
 	int	i;
 
 	i = 0;
-	while (str[i])
-	{
-		if (str[i] != ' ' && str[i] != '\n' && str[i] != '\0')
-			return (1);
+	while (str[i] == ' ')
 		i++;
+	if (str[i] == '\0')
+		return (0);
+	return (1);
+}
+
+int	check_arg(char *str)
+{
+	char	**split_arg;
+
+	split_arg = ft_split(str, ' ');
+	if (!split_arg[0] || !split_arg[1] || split_arg[2])
+	{
+		free_tab(split_arg);
+		return (0);
 	}
-	return (0);	
+	if (ft_strncmp(split_arg[0], "NO", 3) && ft_strncmp(split_arg[0], "EA", 3)
+			&& ft_strncmp(split_arg[0], "SO", 3) && ft_strncmp(split_arg[0], "WE", 3)
+			&& ft_strncmp(split_arg[0], "F", 2) && ft_strncmp(split_arg[0], "C", 2))
+	{
+		free_tab(split_arg);
+		return (0);
+	}
+	free_tab(split_arg);
+	return (1);
+}
+
+int	add_texture(t_data *data, char *arg)
+{
+	char	**split_arg;
+
+	split_arg = ft_split(arg, ' ');
+	if (!ft_strncmp(split_arg[0], "NO", 3) && !data->texture.nwall_path)
+		data->texture.nwall_path = ft_strdup(split_arg[1]);
+	else if (!ft_strncmp(split_arg[0], "EA", 3) && !data->texture.ewall_path)
+		data->texture.ewall_path = ft_strdup(split_arg[1]);
+	else if (!ft_strncmp(split_arg[0], "SO", 3) && !data->texture.swall_path)
+		data->texture.swall_path = ft_strdup(split_arg[1]);
+	else if (!ft_strncmp(split_arg[0], "WE", 3) && !data->texture.wwall_path)
+		data->texture.wwall_path = ft_strdup(split_arg[1]);
+	else if (!ft_strncmp(split_arg[0], "C", 2) && !data->texture.cwall_color)
+		data->texture.cwall_color = ft_strdup(split_arg[1]);
+	else if (!ft_strncmp(split_arg[0], "F", 2) && !data->texture.fwall_color)
+		data->texture.fwall_color = ft_strdup(split_arg[1]);
+	free_tab(split_arg);
+	return (1);
 }

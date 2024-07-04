@@ -6,7 +6,7 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 10:33:12 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/02 16:58:35 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/04 19:11:42 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 int	free_all(t_data *data)
 {
 	free_map(&data->map);
-	free_img(&data->img);
+	free_texture(&data->texture);
 	mlx_destroy_window(data->mlx, data->mlx_win);
-	mlx_destroy_image(data->mlx, data->img.air.mlx_img);
-	mlx_destroy_image(data->mlx, data->img.player.mlx_img);
-	mlx_destroy_image(data->mlx, data->img.wall.mlx_img);
+	mlx_destroy_image(data->mlx, data->texture.air.mlx_img);
+	mlx_destroy_image(data->mlx, data->texture.player.mlx_img);
+	mlx_destroy_image(data->mlx, data->texture.wall.mlx_img);
 	mlx_destroy_display(data->mlx);
 	free(data->mlx);
 	exit(0);
@@ -37,14 +37,20 @@ void	free_map(t_map **map)
 	}
 }
 
-void	free_img(t_imgs *img)
+void	free_texture(t_texture *texture)
 {
-	free(img->c_wall);
-	free(img->e_wall);
-	free(img->f_wall);
-	free(img->w_wall);
-	free(img->n_wall);
-	free(img->s_wall);
+	if (texture->nwall_path)
+		free(texture->nwall_path);
+	if (texture->ewall_path)
+		free(texture->ewall_path);
+	if (texture->swall_path)
+		free(texture->swall_path);
+	if (texture->wwall_path)
+		free(texture->wwall_path);
+	if (texture->cwall_color)
+		free(texture->cwall_color);
+	if (texture->fwall_color)
+		free(texture->fwall_color);
 }
 
 void	free_tab(char **str)

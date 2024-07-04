@@ -6,45 +6,41 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 10:33:03 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/02 16:24:42 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/04 19:31:47 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cube3D.h"
 
-void	init_map(t_data *data, char *file)
+void	init_map(t_data *data, char *file, int start)
 {
 	t_map	*map;
-	char	*str;
-	int		fd;
+	char	**split_arg;
 	int		i;
-	int		y;
+	int		x;
 
 	map = NULL;
-	fd = open(file, O_RDONLY);
-	y = 0;
-	str = get_next_line(fd);
-	while (data->parse_status > 0 || !valid_str(str))
+	split_arg = ft_split(file, '\n');
+	i = 0;
+	if (!split_arg[start])
 	{
-		data->parse_status -= 1;
-		free(str);
-		str = get_next_line(fd);
+		data->map = NULL;
+		free_tab(split_arg);
+		return ;
 	}
-	while (str)
+	while (!check_line(split_arg[start]))
+		start++;
+	while (split_arg[start + i])
 	{
-		i = 0;
-		while (str[i])
+		x = 0;
+		while (split_arg[start + i][x])
 		{
-			if (str[i] == '\n')
-				break ;
-			fill_map(&map, str[i], i, y);
-			i++;
+			fill_map(&map, split_arg[start + i][x], x, i);
+			x++;
 		}
-		y += 1;
-		free(str);
-		str = get_next_line(fd);
+		i++;
 	}
-	close(fd);
+	free_tab(split_arg);
 	data->map = map;
 }
 

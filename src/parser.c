@@ -6,7 +6,7 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:19:07 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/02 18:12:23 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/04 19:32:52 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,24 @@ int	parse_map(t_data *data)
 	if (valid_char(data))
 	{
 		printf("Error\nInvalid char\n");
-		return (0);
+		return (1);
 	}
-	if (valid_color(data->img.c_wall) || valid_color(data->img.f_wall))
+	if (valid_color(data->texture.cwall_color) || valid_color(data->texture.fwall_color))
 	{
 		printf("Error\nInvalid color\n");
-		return (0);
+		return (1);
+	}
+	if (valid_player(data))
+	{
+		printf("Error\nInvalid player\n");
+		return (1);
 	}
 	if (closed_map(data))
 	{
 		printf("Error\nInvalid map\n");
-		return (0);
+		return (1);
 	}
-	return (1);
+	return (0);
 }
 
 int	valid_char(t_data *data)
@@ -69,6 +74,28 @@ int	valid_color(char *str)
 	return (0);
 }
 
+int	valid_player(t_data *data)
+{
+	t_map	*tmp;
+	int		status;
+
+	tmp = data->map;
+	status = 0;
+	while (tmp)
+	{
+		if (tmp->content == 'N' || tmp->content == 'E'
+			|| tmp->content == 'S' || tmp->content == 'W')
+		{
+			if (status == 1)
+				return (1);
+			data->pos.posx = tmp->x;
+			data->pos.posy = tmp->y;
+		}
+		tmp = tmp->next;
+	}
+	return (0);
+}
+
 int	closed_map(t_data *data)
 {
 	t_map	*new;
@@ -82,8 +109,10 @@ int	closed_map(t_data *data)
 	{
 		if (tmp->content == ' ')
 		{
-			if ((tmp->prev && tmp->prev->content == '0') || (tmp->next && tmp->next->content == '0')
-			|| content_up(tmp) == '0' || content_down(data, tmp) == '0')
+			if ((tmp->prev && (tmp->prev->content != '1' || tmp->prev->content != ' '))
+				|| (tmp->next && (tmp->next->content != '1' || tmp->next->content != ' '))
+				|| (content_up(tmp) != '1' || content_up(tmp) != ' ')
+				|| (content_down(data, tmp) != '1' || content_down(data, tmp) != ' '))
 			{
 				//printf("x = %d | y = %d\n", tmp->x, tmp->y);
 				//if (tmp->prev)
