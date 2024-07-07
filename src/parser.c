@@ -6,7 +6,7 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:19:07 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/04 19:32:52 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/05 15:51:59 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,22 @@
 
 int	parse_map(t_data *data)
 {
-	if (valid_char(data))
+	if (!valid_char(data))
 	{
 		printf("Error\nInvalid char\n");
 		return (1);
 	}
-	if (valid_color(data->texture.cwall_color) || valid_color(data->texture.fwall_color))
+	if (!valid_color(data->texture.cwall_color) || !valid_color(data->texture.fwall_color))
 	{
 		printf("Error\nInvalid color\n");
 		return (1);
 	}
-	if (valid_player(data))
+	if (!valid_player(data))
 	{
 		printf("Error\nInvalid player\n");
 		return (1);
 	}
-	if (closed_map(data))
+	if (!closed_map(data))
 	{
 		printf("Error\nInvalid map\n");
 		return (1);
@@ -44,14 +44,14 @@ int	valid_char(t_data *data)
 	tmp = data->map;
 	while (tmp)
 	{
-		if (!ft_strchr("10 PWENS", tmp->content))
+		if (!ft_strchr("10 WENS", tmp->content))
 		{
 			//printf("content = %c\n", tmp->content);
-			return (1);
+			return (0);
 		}
 		tmp = tmp->next;
 	}
-	return (0);
+	return (1);
 }
 
 int	valid_color(char *str)
@@ -66,12 +66,12 @@ int	valid_color(char *str)
 		if (ft_atoi_color(arg[i]) > 255)
 		{
 			free_tab(arg);
-			return (1);
+			return (0);
 		}
 		i++;
 	}
 	free_tab(arg);
-	return (0);
+	return (1);
 }
 
 int	valid_player(t_data *data)
@@ -87,13 +87,14 @@ int	valid_player(t_data *data)
 			|| tmp->content == 'S' || tmp->content == 'W')
 		{
 			if (status == 1)
-				return (1);
+				return (0);
 			data->pos.posx = tmp->x;
 			data->pos.posy = tmp->y;
+			status++;
 		}
 		tmp = tmp->next;
 	}
-	return (0);
+	return (status);
 }
 
 int	closed_map(t_data *data)
@@ -104,15 +105,15 @@ int	closed_map(t_data *data)
 
 	new = new_map(data);
 	tmp = new;
-	status = 0;
+	status = 1;
 	while (tmp)
 	{
 		if (tmp->content == ' ')
 		{
-			if ((tmp->prev && (tmp->prev->content != '1' || tmp->prev->content != ' '))
-				|| (tmp->next && (tmp->next->content != '1' || tmp->next->content != ' '))
-				|| (content_up(tmp) != '1' || content_up(tmp) != ' ')
-				|| (content_down(data, tmp) != '1' || content_down(data, tmp) != ' '))
+			if ((tmp->prev && (tmp->prev->content != '1' && tmp->prev->content != ' '))
+				|| (tmp->next && (tmp->next->content != '1' && tmp->next->content != ' '))
+				|| (content_up(tmp) != '1' && content_up(tmp) != ' ')
+				|| (content_down(data, tmp) != '1' && content_down(data, tmp) != ' '))
 			{
 				//printf("x = %d | y = %d\n", tmp->x, tmp->y);
 				//if (tmp->prev)
@@ -121,7 +122,7 @@ int	closed_map(t_data *data)
 					//printf("next content = %c\n", tmp->next->content);
 				//printf("up content = %c\n", content_up(tmp));
 				//printf("down content = %c\n", content_down(data, tmp));
-				status = 1;
+				status = 0;
 				break ;
 			}
 		}
@@ -144,19 +145,19 @@ t_map	*new_map(t_data *data)
 	while (i != data->pos.xmax + 3)
 	{
 		if (i == data->pos.xmax + 2)
-			fill_map(&new, ' ', 0, 1);
+			add_map(&new, ' ', 0, 1);
 		else
-			fill_map(&new, ' ', i, 0);
+			add_map(&new, ' ', i, 0);
 		i++;
 	}
 	i = 1;
 	while (tmp)
 	{
-		fill_map(&new, tmp->content, tmp->x + 1, tmp->y + 1);
+		add_map(&new, tmp->content, tmp->x + 1, tmp->y + 1);
 		if (tmp->x == (data->pos.xmax - 1))
 		{
-			fill_map(&new, ' ', data->pos.xmax + 1, i);
-			fill_map(&new, ' ', 0, i + 1);
+			add_map(&new, ' ', data->pos.xmax + 1, i);
+			add_map(&new, ' ', 0, i + 1);
 			i++;
 		}
 		tmp = tmp->next;
@@ -164,7 +165,7 @@ t_map	*new_map(t_data *data)
 	i = 0;
 	while (i != data->pos.xmax + 1)
 	{
-		fill_map(&new, ' ', i + 1, data->pos.ymax + 1);
+		add_map(&new, ' ', i + 1, data->pos.ymax + 1);
 		i++;
 	}
 	//print_map(new);

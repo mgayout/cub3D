@@ -6,7 +6,7 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 08:14:35 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/04 19:32:39 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/05 15:56:25 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,13 @@ int	init_arg(t_data *data, char *file)
 		print_error("Error\nMissing texture.\n", 1);
 	}
 	init_map(data, data->file, start);
-	//print_map(data->map);
+	print_map(data->map);
 	init_data(data);
+	//data->pos.xmax = 10;
+	//data->pos.ymax = 10;
+	fill_map(data, &data->map);
+	printf("\n");
+	print_map(data->map);
 	free(data->file);
 	return (0);
 }
@@ -92,9 +97,9 @@ void	init_data(t_data *data)
 	y = 0;
 	while (tmp)
 	{
-		if (tmp->x > x)
+		if (tmp->x > x && tmp->content == '1')
 			x = tmp->x;
-		if (tmp->y > y)
+		if (tmp->y > y && tmp->content == '1')
 			y = tmp->y;
 		tmp = tmp->next;
 	}

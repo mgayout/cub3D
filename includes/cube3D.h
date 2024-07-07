@@ -6,7 +6,7 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 08:03:07 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/04 19:24:24 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/05 16:27:58 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,13 @@ int		init_walls(t_data *data, char *file);
 int		check_line(char *str);
 int		check_arg(char *str);
 int		add_texture(t_data *data, char *arg);
+char	**ft_split_cub(char const *str, char c);
 
 //MAP
 void	init_map(t_data *data, char *file, int start);
-void	fill_map(t_map **map, char content, int x, int y);
+void	add_map(t_map **map, char content, int x, int y);
+void	fill_map(t_data *data, t_map **map);
+void	add_map_space(t_map *map, int x, int y);
 t_map	*last_map(t_map **map);
 void	print_map(t_map *map);
 

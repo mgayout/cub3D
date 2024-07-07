@@ -6,7 +6,7 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 10:33:03 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/04 19:31:47 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/05 16:30:17 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	init_map(t_data *data, char *file, int start)
 		x = 0;
 		while (split_arg[start + i][x])
 		{
-			fill_map(&map, split_arg[start + i][x], x, i);
+			add_map(&map, split_arg[start + i][x], x, i);
 			x++;
 		}
 		i++;
@@ -44,7 +44,7 @@ void	init_map(t_data *data, char *file, int start)
 	data->map = map;
 }
 
-void	fill_map(t_map **map, char content, int x, int y)
+void	add_map(t_map **map, char content, int x, int y)
 {
 	t_map	*new;
 	t_map	*last;
@@ -64,6 +64,49 @@ void	fill_map(t_map **map, char content, int x, int y)
 		new->prev = last;
 		new->next = NULL;
 	}
+}
+
+void	fill_map(t_data *data, t_map **map)
+{
+	t_map	*tmp;
+	t_map	*ptr;
+	int		x;
+	
+	tmp = *map;
+	while (tmp)
+	{
+		//printf("%c\n", tmp->content);
+		if (((tmp->next && tmp->next->y == tmp->y + 1) || !tmp->next) && tmp->x != data->pos.xmax)
+		{
+			x = tmp->x + 1;
+			ptr = tmp->next;
+			while (x < data->pos.xmax)
+			{
+				add_map_space(tmp, x, tmp->y);
+				//printf("%c", tmp->content);
+				tmp = tmp->next;
+				x++;
+			}
+			if (ptr)
+				ptr->prev = tmp;
+			tmp->next = ptr;
+		}
+		//printf("%c\n", tmp->content);
+		tmp = tmp->next;
+	}
+}
+
+void	add_map_space(t_map *map, int x, int y)
+{
+	t_map	*new;
+
+	new = malloc(sizeof(t_map) * 1);
+	new->content = ' ';
+	new->x = x;
+	new->y = y;
+	new->prev = map;
+	new->next = NULL;
+	map->next = new;
 }
 
 t_map	*last_map(t_map **map)
