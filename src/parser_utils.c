@@ -6,7 +6,7 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:36:11 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/02 18:12:02 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/08 16:25:53 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	content_down(t_data *data, t_map *map)
 	x = map->x;
 	y = map->y;
 	//printf("new : x = %d | y = %d\n", x, y);
-	if (y == data->pos.ymax + 1)
+	if (y == data->size.ymax + 1)
 		return (' ');
 	tmp = tmp->next;
 	while (tmp && (tmp->x != x || tmp->y != y + 1))

@@ -6,7 +6,7 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 08:14:35 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/05 15:56:25 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/08 17:45:30 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,12 @@ int	main(int argc, char **argv)
 		print_error("Error\nBad map format.\n", 1);
 	if (init_arg(&data, argv[1]))
 		return (1);
+	init_size(&data);
 	if (data.map != NULL && !parse_map(&data))
 	{
 		data.mlx = mlx_init();
-		init_texture(&data);
+		create_texture(&data);
+		data.minimap = false;
 		init_game(&data);
 	}
 	else
@@ -62,12 +64,7 @@ int	init_arg(t_data *data, char *file)
 			data->file = ft_strjoin_free(data->file, buf, 1);
 		free(buf);
 	}
-	data->texture.nwall_path = NULL;
-	data->texture.ewall_path = NULL;
-	data->texture.swall_path = NULL;
-	data->texture.wwall_path = NULL;
-	data->texture.cwall_color = NULL;
-	data->texture.fwall_color = NULL;
+	init_texture(data);
 	start = init_walls(data, data->file);
 	if (start == -1)
 	{
@@ -75,50 +72,24 @@ int	init_arg(t_data *data, char *file)
 		print_error("Error\nMissing texture.\n", 1);
 	}
 	init_map(data, data->file, start);
-	print_map(data->map);
-	init_data(data);
-	//data->pos.xmax = 10;
-	//data->pos.ymax = 10;
-	fill_map(data, &data->map);
-	printf("\n");
-	print_map(data->map);
 	free(data->file);
 	return (0);
 }
 
-void	init_data(t_data *data)
+void	init_size(t_data *data)
 {
-	t_map	*tmp;
-	int		x;
-	int		y;
-
-	tmp = data->map;
-	x = 0;
-	y = 0;
-	while (tmp)
-	{
-		if (tmp->x > x && tmp->content == '1')
-			x = tmp->x;
-		if (tmp->y > y && tmp->content == '1')
-			y = tmp->y;
-		tmp = tmp->next;
-	}
-	data->pos.xmax = x + 1;
-	data->pos.width = (1500 / data->pos.xmax);
-	if (data->pos.width % 2 != 0)
-		data->pos.width += 1;
-	data->pos.ymax = y + 1;
-	data->pos.height = (800 / data->pos.ymax);
-	if (data->pos.height % 2 != 0)
-		data->pos.height += 1;
-	data->pos.moovex = 0;
-	data->pos.moovey = 0;
+	data->size.screen_width = 1500;
+	data->size.screen_height = 800;
+	xy_max(data);
+	block_size(data);
+	data->size.moovex = 0;
+	data->size.moovey = 0;
 }
 
 void	init_game(t_data *data)
 {
-	data->mlx_win = mlx_new_window(data->mlx, 1500, 800, "cube3D");
-	first_draw(data);
+	data->mlx_win = mlx_new_window(data->mlx, data->size.screen_width, data->size.screen_height, "cub3D");
+	draw(data);
 	mlx_hook(data->mlx_win, KeyPress, KeyPressMask, &press_key, data);
 	mlx_hook(data->mlx_win, 17, 0, &free_all, data);
 	mlx_loop(data->mlx);

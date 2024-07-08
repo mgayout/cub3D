@@ -6,7 +6,7 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 10:33:12 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/04 19:11:42 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/08 17:24:30 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@ int	free_all(t_data *data)
 	mlx_destroy_image(data->mlx, data->texture.air.mlx_img);
 	mlx_destroy_image(data->mlx, data->texture.player.mlx_img);
 	mlx_destroy_image(data->mlx, data->texture.wall.mlx_img);
+	//mlx_destroy_image(data->mlx, data->texture.minimap.background.mlx_img);
+	//mlx_destroy_image(data->mlx, data->texture.minimap.player.mlx_img);
+	//mlx_destroy_image(data->mlx, data->texture.minimap.wall.mlx_img);
 	mlx_destroy_display(data->mlx);
 	free(data->mlx);
 	exit(0);
@@ -39,6 +42,7 @@ void	free_map(t_map **map)
 
 void	free_texture(t_texture *texture)
 {
+	printf("free\n");
 	if (texture->nwall_path)
 		free(texture->nwall_path);
 	if (texture->ewall_path)

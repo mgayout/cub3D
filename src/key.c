@@ -6,7 +6,7 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 10:38:48 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/05 11:14:34 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/08 18:02:55 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,131 +21,66 @@ int	press_key(int key, t_data *data)
 	y = 0;
 	if (key == XK_Escape)
 		free_all(data);
+	//else if (key == XK_m)
+		//return (init_minimap(data));
 	else if (key == XK_w || key == XK_Up)
-		y -= (data->pos.height / 2);
+		y -= 5;
 	else if (key == XK_a || key == XK_Left)
-		x -= (data->pos.width / 2);
+		x -= 5;
 	else if (key == XK_d || key == XK_Right)
-		x += (data->pos.width / 2);
+		x += 5;
 	else if (key == XK_s || key == XK_Down)
-		y += (data->pos.height / 2);
+		y += 5;
 	else
-		return (0);
+		return (1);
 	if (walled(data, x, y))
-		return (0);
-	draw(data, x, y);
-	return (0);
+		return (1);
+	update_player(data, x, y);
+	return (1);
 }
 
 int	walled(t_data *data, int x, int y)
 {
 	t_map	*tmp;
-	int		*pos;
-	
+	int		up;
+	int		right;
+	int		down;
+	int		left;
+
 	tmp = data->map;
-	if (x > 0 || y > 0)
-		pos = moove_up(data, x, y);
-	else if (x < 0 || y < 0)
-		pos = moove_down(data, x, y);
-	//printf("x = %d | y = %d\n", pos[0], pos[1]);
-	//printf("x2 = %d | y2 = %d\n", pos[2], pos[3]);
-	//printf("x3 = %d | y3 = %d\n", pos[4], pos[5]);
-	//printf("x4 = %d | y4 = %d\n", pos[6], pos[7]);
-	while (tmp && pos)
-	{
-		if (((tmp->x == pos[0] && tmp->y == pos[1]) || (tmp->x == pos[2] && tmp->y == pos[3])
-			|| (tmp->x == pos[4] && tmp->y == pos[5]) || (tmp->x == pos[6] && tmp->y == pos[7]))
-			&& tmp->content == '1')
-		{
-			free(pos);
-			return (1);
-		}
+	while (tmp->content != 'N' && tmp->content != 'E' && tmp->content != 'S' && tmp->content != 'W')
 		tmp = tmp->next;
-	}
-	free(pos);
+	up = (tmp->y * data->size.block_height) + ((data->size.block_width - data->size.player_height) / 2) + data->size.moovey;
+	right = ((tmp->x + 1) * data->size.block_width) + ((data->size.block_width - data->size.player_width) / 2) + data->size.moovex;
+	down = ((tmp->y + 1) * data->size.block_height) - ((data->size.block_width - data->size.player_height) / 2) + data->size.moovey;
+	left = (tmp->x * data->size.block_width) + ((data->size.block_width - data->size.player_width) / 2) + data->size.moovex;
+	if (check_top_right(data, up, right))
+		return (1);
+	else if (check_bottom_right(data, up, right))
+		return (1);
+	else if (check_bottom_left(data, up, right))
+		return (1);
+	else if (check_top_left(data, up, right))
+		return (1);
 	return (0);
 }
 
-int	*moove_up(t_data *data, int x, int y)
+int	check_top_right(t_data *data, int up, int right)
 {
-	int	*pos;
-
-	pos = malloc(sizeof(int) * 8);
-	if (!pos)
-		return (NULL);
-	if (((data->pos.moovex + x) % data->pos.width) != 0)
-	{
-		//printf("moove up 1\n");
-		pos[0] = (((data->pos.moovex + x) + (data->pos.posx * data->pos.width)) / data->pos.width);
-		pos[2] = pos[0] + 1;
-		pos[4] = (((data->pos.moovex + x) + (data->pos.posx * data->pos.width)) / data->pos.width);
-		pos[6] = pos[4] + 1;;
-	}
-	else
-	{
-		//printf("moove up 2\n");
-		pos[0] = (((data->pos.moovex + x) + (data->pos.posx * data->pos.width)) / data->pos.width);
-		pos[2] = (((data->pos.moovex + x) + (data->pos.posx * data->pos.width)) / data->pos.width);
-		pos[4] = (((data->pos.moovex + x) + (data->pos.posx * data->pos.width)) / data->pos.width);
-		pos[6] = (((data->pos.moovex + x) + (data->pos.posx * data->pos.width)) / data->pos.width);
-	}
-	if (((data->pos.moovey + y) % data->pos.height) != 0)
-	{
-		//printf("moove up 3\n");
-		pos[1] = (((data->pos.moovey + y) + (data->pos.posy * data->pos.height)) / data->pos.height);
-		pos[3] = pos[1] + 1;
-		pos[5] = pos[1] + 1;
-		pos[7] = (((data->pos.moovey + y) + (data->pos.posy * data->pos.height)) / data->pos.height);
-	}
-	else
-	{
-		//printf("moove up 4\n");
-		pos[1] = (((data->pos.moovey + y) + (data->pos.posy * data->pos.height)) / data->pos.height);
-		pos[3] = (((data->pos.moovey + y) + (data->pos.posy * data->pos.height)) / data->pos.height);
-		pos[5] = (((data->pos.moovey + y) + (data->pos.posy * data->pos.height)) / data->pos.height);
-		pos[7] = (((data->pos.moovey + y) + (data->pos.posy * data->pos.height)) / data->pos.height);
-	}
-	return (pos);
+	
 }
 
-int	*moove_down(t_data *data, int x, int y)
+int	check_bottom_right(t_data *data, int down, int right)
 {
-	int	*pos;
+	
+}
 
-	pos = malloc(sizeof(int) * 8);
-	if (!pos)
-		return (NULL);
-	if (((data->pos.moovex + x) % data->pos.width) != 0)
-	{
-		//printf("moove down 1\n");
-		pos[0] = (((data->pos.moovex + x) + (data->pos.posx * data->pos.width)) / data->pos.width);
-		pos[2] = pos[0] + 1;
-		pos[4] = (((data->pos.moovex + x) + (data->pos.posx * data->pos.width)) / data->pos.width);
-		pos[6] = pos[4] + 1;
-	}
-	else
-	{
-		//printf("moove down 2\n");
-		pos[0] = (((data->pos.moovex + x) + (data->pos.posx * data->pos.width)) / data->pos.width);
-		pos[2] = (((data->pos.moovex + x) + (data->pos.posx * data->pos.width)) / data->pos.width);
-		pos[4] = (((data->pos.moovex + x) + (data->pos.posx * data->pos.width)) / data->pos.width);
-		pos[6] = (((data->pos.moovex + x) + (data->pos.posx * data->pos.width)) / data->pos.width);
-	}
-	if (((data->pos.moovey + y) % data->pos.height) != 0)
-	{
-		//printf("moove down 3\n");
-		pos[1] = (((data->pos.moovey + y) + (data->pos.posy * data->pos.height)) / data->pos.height);
-		pos[3] = pos[1] + 1;
-		pos[5] = pos[1] + 1;
-		pos[7] = (((data->pos.moovey + y) + (data->pos.posy * data->pos.height)) / data->pos.height);
-	}
-	else
-	{
-		//printf("moove down 4\n");
-		pos[1] = (((data->pos.moovey + y) + (data->pos.posy * data->pos.height)) / data->pos.height);
-		pos[3] = (((data->pos.moovey + y) + (data->pos.posy * data->pos.height)) / data->pos.height);
-		pos[5] = (((data->pos.moovey + y) + (data->pos.posy * data->pos.height)) / data->pos.height);
-		pos[7] = (((data->pos.moovey + y) + (data->pos.posy * data->pos.height)) / data->pos.height);
-	}
-	return (pos);
+int	check_bottom_left(t_data *data, int down, int left)
+{
+	
+}
+
+int	check_top_left(t_data *data, int up, int left)
+{
+	
 }

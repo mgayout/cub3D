@@ -6,7 +6,7 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:19:07 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/05 15:51:59 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/08 16:25:41 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	parse_map(t_data *data)
 {
+	fill_map(data, &data->map);
 	if (!valid_char(data))
 	{
 		printf("Error\nInvalid char\n");
@@ -63,7 +64,7 @@ int	valid_color(char *str)
 	i = 0;
 	while (arg[i])
 	{
-		if (ft_atoi_color(arg[i]) > 255)
+		if (ft_atoi_color(arg[i]) > 255 || ft_atoi_color(arg[i]) < 0)
 		{
 			free_tab(arg);
 			return (0);
@@ -88,8 +89,6 @@ int	valid_player(t_data *data)
 		{
 			if (status == 1)
 				return (0);
-			data->pos.posx = tmp->x;
-			data->pos.posy = tmp->y;
 			status++;
 		}
 		tmp = tmp->next;
@@ -142,9 +141,9 @@ t_map	*new_map(t_data *data)
 	new = NULL;
 	tmp = data->map;
 	i = 0;
-	while (i != data->pos.xmax + 3)
+	while (i != data->size.xmax + 3)
 	{
-		if (i == data->pos.xmax + 2)
+		if (i == data->size.xmax + 2)
 			add_map(&new, ' ', 0, 1);
 		else
 			add_map(&new, ' ', i, 0);
@@ -154,18 +153,18 @@ t_map	*new_map(t_data *data)
 	while (tmp)
 	{
 		add_map(&new, tmp->content, tmp->x + 1, tmp->y + 1);
-		if (tmp->x == (data->pos.xmax - 1))
+		if (tmp->x == (data->size.xmax - 1))
 		{
-			add_map(&new, ' ', data->pos.xmax + 1, i);
+			add_map(&new, ' ', data->size.xmax + 1, i);
 			add_map(&new, ' ', 0, i + 1);
 			i++;
 		}
 		tmp = tmp->next;
 	}
 	i = 0;
-	while (i != data->pos.xmax + 1)
+	while (i != data->size.xmax + 1)
 	{
-		add_map(&new, ' ', i + 1, data->pos.ymax + 1);
+		add_map(&new, ' ', i + 1, data->size.ymax + 1);
 		i++;
 	}
 	//print_map(new);
