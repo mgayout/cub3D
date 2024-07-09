@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw.c                                             :+:      :+:    :+:   */
+/*   draw_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/01 10:41:19 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/09 13:56:47 by mgayout          ###   ########.fr       */
+/*   Created: 2024/07/09 13:47:03 by mgayout           #+#    #+#             */
+/*   Updated: 2024/07/09 13:47:04 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cube3D.h"
+#include "../includes/cube3D_bonus.h"
 
 int	draw(t_data *data)
 {
@@ -26,6 +26,12 @@ int	draw(t_data *data)
 			posx = (tmp->x * data->size.block) + ((data->size.block - data->size.wall) / 2);
 			posy = (tmp->y * data->size.block) + ((data->size.block - data->size.wall) / 2);
 			mlx_put_image_to_window(data->mlx, data->mlx_win, data->texture.wall.mlx_img, posx, posy);
+		}
+		if (tmp->content == 'D')
+		{
+			posx = (tmp->x * data->size.block) + ((data->size.block - data->size.wall) / 2);
+			posy = (tmp->y * data->size.block) + ((data->size.block - data->size.wall) / 2);
+			mlx_put_image_to_window(data->mlx, data->mlx_win, data->texture.door.mlx_img, posx, posy);
 		}
 		else if (tmp->content == 'N' || tmp->content == 'E' || tmp->content == 'S' || tmp->content == 'W')
 		{

@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   parser_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/01 14:19:07 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/08 16:25:41 by mgayout          ###   ########.fr       */
+/*   Created: 2024/07/09 13:48:46 by mgayout           #+#    #+#             */
+/*   Updated: 2024/07/09 13:48:48 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cube3D.h"
+#include "../includes/cube3D_bonus.h"
 
 int	parse_map(t_data *data)
 {
@@ -45,7 +45,7 @@ int	valid_char(t_data *data)
 	tmp = data->map;
 	while (tmp)
 	{
-		if (!ft_strchr("10 WENS", tmp->content))
+		if (!ft_strchr("10 WENSD", tmp->content))
 		{
 			//printf("content = %c\n", tmp->content);
 			return (0);

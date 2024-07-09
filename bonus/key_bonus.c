@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   key.c                                              :+:      :+:    :+:   */
+/*   key_bonus.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/01 10:38:48 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/09 13:57:19 by mgayout          ###   ########.fr       */
+/*   Created: 2024/07/09 13:47:29 by mgayout           #+#    #+#             */
+/*   Updated: 2024/07/09 13:47:35 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cube3D.h"
+#include "../includes/cube3D_bonus.h"
 
 int	press_key(int key, t_data *data)
 {
@@ -21,6 +21,10 @@ int	press_key(int key, t_data *data)
 	y = 0;
 	if (key == XK_Escape)
 		free_all(data);
+	else if (key == XK_m)
+		return (init_minimap(data));
+	else if (key == XK_o)
+		return (init_door(data));
 	else if (key == XK_w || key == XK_Up)
 		y -= 5;
 	else if (key == XK_a || key == XK_Left)
@@ -33,7 +37,11 @@ int	press_key(int key, t_data *data)
 		return (1);
 	if (walled(data, x, y))
 		return (1);
+	if (!data->door && next_to_door(data, x, y))
+		return (1);
 	update_player(data, x, y);
+	if (data->minimap)
+		draw_minimap(data);
 	return (1);
 }
 

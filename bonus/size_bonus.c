@@ -1,26 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   size.c                                             :+:      :+:    :+:   */
+/*   size_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/08 16:08:16 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/09 13:52:54 by mgayout          ###   ########.fr       */
+/*   Created: 2024/07/09 13:49:12 by mgayout           #+#    #+#             */
+/*   Updated: 2024/07/09 13:49:14 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cube3D.h"
-
-void	init_size(t_data *data)
-{
-	data->size.screen_width = 1500;
-	data->size.screen_height = 1000;
-	xy_max(data);
-	block_size(data);
-	data->size.moovex = 0;
-	data->size.moovey = 0;
-}
+#include "../includes/cube3D_bonus.h"
 
 void	xy_max(t_data *data)
 {
@@ -48,4 +38,13 @@ void	block_size(t_data *data)
 	data->size.block = 50;
 	data->size.wall = data->size.block - 1;
 	data->size.player= 10;
+}
+
+void	mini_size(t_data *data)
+{
+	data->size.minimap.mini_width = 275;
+	data->size.minimap.mini_height = 275;
+	data->size.minimap.block = (data->size.block / 2);
+	data->size.minimap.wall = data->size.minimap.block - 1;
+	data->size.minimap.player = data->size.player / 2;
 }

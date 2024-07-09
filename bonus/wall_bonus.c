@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wall.c                                             :+:      :+:    :+:   */
+/*   wall_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 12:16:55 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/09 15:13:11 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/09 13:49:52 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cube3D.h"
+#include "../includes/cube3D_bonus.h"
 
-int	init_wall(t_data *data, char *file)
+int	init_walls(t_data *data, char *file)
 {
 	char	*line;
 	int		status;
@@ -30,7 +30,17 @@ int	init_wall(t_data *data, char *file)
 			line = ft_substr(file, j, i - j);
 		else
 			line = NULL;
-		status = init_wall2(data, line, status);
+		//if (line)
+			//printf("line = %s\n", line);
+		if (line && check_line(line) && check_arg(line))
+			status += add_texture(data, line);
+		else if (line && check_line(line) && !check_arg(line))
+		{
+			free_texture(&data->texture);
+			free(data->file);
+			free(line);
+			print_error("Error\nBad texture\n", 1);
+		}
 		if (line)
 			free(line);
 		i++;
@@ -40,21 +50,6 @@ int	init_wall(t_data *data, char *file)
 	return (i);	
 }
 
-int	init_wall2(t_data *data, char *line, int status)
-{
-	if (line && check_line(line) && check_arg(line))
-		status += add_texture(data, line);
-	else if (line && check_line(line) && !check_arg(line))
-	{
-		printf("line = %s\n", line);
-		free_texture(&data->texture);
-		free(data->file);
-		free(line);
-		print_error("Error\nBad texture\n", 1);
-	}
-	return (status);
-}
-
 int	check_line(char *line)
 {
 	int	i;
@@ -62,6 +57,7 @@ int	check_line(char *line)
 	i = 0;
 	while (line[i] && line[i] == ' ')
 		i++;
+	//printf("check line | line[i] = %c\n", line[i]);
 	if (line[i] == '\n')
 		return (0);
 	return (1);

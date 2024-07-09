@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map.c                                              :+:      :+:    :+:   */
+/*   map_bonus.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/01 10:33:03 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/09 15:16:48 by mgayout          ###   ########.fr       */
+/*   Created: 2024/07/09 13:48:00 by mgayout           #+#    #+#             */
+/*   Updated: 2024/07/09 13:48:05 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cube3D.h"
+#include "../includes/cube3D_bonus.h"
 
 void	init_map(t_data *data, char *file, int start)
 {
@@ -21,6 +21,12 @@ void	init_map(t_data *data, char *file, int start)
 	map = NULL;
 	x = 0;
 	y = 0;
+	if (file[start] == '\0')
+	{
+		printf("1\n");
+		data->map = map;
+		return ;
+	}
 	while (file[start] == ' ' || file[start] == '\n')
 		start++;
 	while (file[start] != '\n')
@@ -30,6 +36,7 @@ void	init_map(t_data *data, char *file, int start)
 		x = start;
 		while (file[start] != '\n' && file[start] != '\0')
 		{
+			//printf("file[start] = %c | x : %d | y : %d\n", file[start], start - x, y);
 			if (file[start] != '\n')
 				add_map(&map, file[start], start - x, y);
 			start++;
