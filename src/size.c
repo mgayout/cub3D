@@ -6,7 +6,7 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 16:08:16 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/09 13:52:54 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/11 11:13:00 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	xy_max(t_data *data)
 	int		x;
 	int		y;
 
-	tmp = data->map;
+	tmp = data->parse.map;
 	x = 0;
 	y = 0;
 	while (tmp)

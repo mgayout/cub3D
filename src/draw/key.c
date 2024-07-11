@@ -6,11 +6,11 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 10:38:48 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/09 13:57:19 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/11 15:41:27 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cube3D.h"
+#include "../../includes/cube3D.h"
 
 int	press_key(int key, t_data *data)
 {
@@ -45,7 +45,7 @@ int	walled(t_data *data, int x, int y)
 	int		down;
 	int		left;
 
-	tmp = data->map;
+	tmp = data->parse.map;
 	while (tmp->content != 'N' && tmp->content != 'E' && tmp->content != 'S' && tmp->content != 'W')
 		tmp = tmp->next;
 	up = (tmp->y * data->size.block) + ((data->size.block - data->size.player) / 2) + (data->size.moovey + y);

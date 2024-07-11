@@ -6,13 +6,13 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 16:16:35 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/09 17:18:09 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/11 12:59:50 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cube3D.h"
 
-int	*init_ray(void)
+/*int	*init_ray(void)
 {
 	int	*ray;
 	int	dis;
@@ -54,4 +54,4 @@ void	test(t_data *data)
 	int	pitch;
 
 	line = 100;
-}
+}*/
