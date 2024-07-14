@@ -6,7 +6,7 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 09:22:16 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/11 12:59:35 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/13 13:47:50 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_map	*find_block(t_data *data, int x, int y)
 {
 	t_map	*tmp;
 
-	if (x < 0 || y < 0 || x > data->size.xmax || y > data->size.ymax)
+	if (x < 0 || y < 0 || x > data->ray.xmax || y > data->ray.ymax)
 		return (NULL);
 	tmp = data->parse.map;
 	while (tmp && (tmp->x != x || tmp->y != y))
@@ -26,7 +26,7 @@ t_map	*find_block(t_data *data, int x, int y)
 	return (tmp);
 }
 
-t_map	*find_block_pixel(t_data *data, int posx, int posy)
+/*t_map	*find_block_pixel(t_data *data, int posx, int posy)
 {
 	int	x;
 	int	y;
@@ -44,7 +44,7 @@ t_map	*find_block_pixel(t_data *data, int posx, int posy)
 		y++;
 	}
 	return (find_block(data, x, y));
-}
+}*/
 
 t_map	*find_player(t_data *data)
 {

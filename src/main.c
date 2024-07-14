@@ -6,7 +6,7 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 08:14:35 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/11 16:02:18 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/13 16:35:35 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,11 @@ int	main(int argc, char **argv)
 		print_error("Error\nBad map format.\n");
 	init_file(&data, argv[1]);
 	init_arg(&data);
-	init_size(&data);
+	init_ray(&data);
 	if (check_texture(&data) && check_map(&data))
 	{
 		data.mlx = mlx_init();
-		create_texture(&data);
-		//data.ray = init_ray();
+		init_texture(&data);
 		init_game(&data);
 	}
 	else
@@ -48,14 +47,8 @@ int	main(int argc, char **argv)
 
 void	init_game(t_data *data)
 {
-	data->mlx_win = mlx_new_window(data->mlx, data->size.screen_width,
-			data->size.screen_height, "cub3D");
-	data->img.mlx_img = mlx_new_image(data->mlx, data->size.screen_width,
-			data->size.screen_height);
-	data->img.addr = mlx_get_data_addr(data->img.mlx_img, &data->img.bpp,
-			&data->img.line_len, &data->img.endian);
-	update_changes(data);
-	//draw(data);
+	data->mlx_win = mlx_new_window(data->mlx, WIDTH, HEIGHT, "cub3D");
+	set_first_draw(data);
 	mlx_hook(data->mlx_win, KeyPress, KeyPressMask, &press_key, data);
 	mlx_hook(data->mlx_win, 17, 0, &free_all, data);
 	mlx_loop(data->mlx);

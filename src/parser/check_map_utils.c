@@ -6,7 +6,7 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:36:11 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/11 11:38:44 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/13 13:44:22 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	content_down(t_data *data, t_map *map)
 	x = map->x;
 	y = map->y;
 	//printf("new : x = %d | y = %d\n", x, y);
-	if (y == data->size.ymax + 1)
+	if (y == data->ray.ymax + 1)
 		return (' ');
 	tmp = tmp->next;
 	while (tmp && (tmp->x != x || tmp->y != y + 1))
@@ -92,10 +92,10 @@ void	fill_map(t_data *data, t_map **map)
 	tmp = *map;
 	while (tmp)
 	{
-		if (((tmp->next && tmp->next->y > tmp->y) || !tmp->next) && tmp->x != data->size.xmax)
+		if (((tmp->next && tmp->next->y > tmp->y) || !tmp->next) && tmp->x != data->ray.xmax)
 		{
 			x = tmp->x + 1;
-			while (x < data->size.xmax)
+			while (x < data->ray.xmax)
 			{
 				add_map_space(tmp, ' ', x, tmp->y);
 				tmp = tmp->next;

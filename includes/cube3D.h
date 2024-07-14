@@ -6,7 +6,7 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 08:03:07 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/11 15:31:40 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/13 16:34:56 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,26 @@
 # include "../minilibx-linux/mlx.h"
 # include "../minilibx-linux/mlx_int.h"
 
-typedef struct s_size
+# define PI 3.14159265
+# define ROT_SPEED 0.20
+# define DEGREES 70
+# define WIDTH 1500
+# define HEIGHT 1000
+
+typedef struct s_ray
 {
-	int				screen_width;
-	int				screen_height;
-	int				xmax;
-	int				ymax;
-	int				block;
-	int				wall;
-	int				player;
-	int				moovex;
-	int				moovey;
-}					t_size;
+	double				height;
+	double				width;
+	double				posx;
+	double				posy;
+	double				dirX;
+	double				dirY;
+	double				rot;
+	int					xmax;
+	int					ymax;
+	double				x;
+	double				y;
+}						t_ray;
 
 typedef struct s_tex
 {
@@ -54,10 +62,6 @@ typedef struct s_tex
 
 typedef struct s_texture
 {
-	struct s_tex	wall;
-	struct s_tex	player;
-	struct s_tex	air_player;
-	
 	struct s_tex	nwall;
 	struct s_tex	ewall;
 	struct s_tex	swall;
@@ -88,10 +92,11 @@ typedef struct s_data
 	void				*mlx_win;
 	int					**buffer;
 	struct s_tex		img;
-	struct s_size		size;
 	struct s_texture	texture;
 	struct s_parse		parse;
-	int					*ray;
+	struct s_ray		ray;
+	double				*len_rayons;
+	int					**tab_walls;
 }						t_data;
 
 //MAIN
@@ -117,10 +122,9 @@ void	add_map(t_map **map, char content, int x, int y);
 t_map	*last_map(t_map **map);
 void	print_map(t_map *map);
 
-//SIZE
-void	init_size(t_data *data);
-void	xy_max(t_data *data);
-void	block_size(t_data *data);
+//RAY
+void	init_ray(t_data *data);
+void	init_dir(t_data *data, char content);
 
 //CHECK_TEXTURE
 int		check_texture(t_data *data);
@@ -143,17 +147,35 @@ void	fill_map(t_data *data, t_map **map);
 void	add_map_space(t_map *map, char c, int x, int y);
 
 //TEXTURE
-void	create_texture(t_data *data);
-void	render_background(t_data *data, t_tex *img, int color);
-void	img_pix_put(t_tex *img, int x, int y, int color);
+void	init_texture(t_data *data);
+void	my_mlx_pixel_put(t_tex *img, int x, int y, int color);
+int		create_rgb(int r, int g, int b);
 
 //DRAW
-int		draw(t_data *data);
-int		update_player(t_data *data, int x, int y);
+void	update_changes(t_data *data);
+void	set_first_draw(t_data *data);
 
 //KEY
 int		press_key(int key, t_data *data);
-int		walled(t_data *data, int x, int y);
+void	modify_rot(t_data *data, int key);
+void	move_w(t_data *data);
+void	move_a(t_data *data);
+void	move_d(t_data *data);
+void	move_s(t_data *data);
+//int		walled(t_data *data, int x, int y);
+
+//RAYCASTING
+void	raycasting(t_data *data);
+void	create_tab_walls(t_data *data);
+void	fill_tab_walls(t_data *data);
+void	calcul_len_rayons(t_data *data);
+double	len_collision(t_data *data, double dirX, double dirY);
+int		wall_here(t_data *data, int x, int y);
+
+//BUFFER
+void	init_buffer(t_data *data);
+void	put_cf_in_buffer(t_data *data);
+void	init_img(t_data *data);
 
 //UTILS
 t_map	*find_block(t_data *data, int x, int y);
@@ -166,12 +188,6 @@ void	free_texture(char **texture_path);
 void	free_map(t_map **map);
 void	free_buffer(t_data *data);
 void	free_tab(char **str);
-
-//int	*init_ray(void);
-void	update_changes(t_data *data);
-void	put_cf_in_buffer(t_data *data);
-void	init_img(t_data *data);
-void	my_mlx_pixel_put(t_data *data, t_tex *img, int x, int y, int color);
-int		create_rgb(int r, int g, int b);
+void	free_intab(int **i, int n);
 
 #endif

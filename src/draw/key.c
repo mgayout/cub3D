@@ -6,7 +6,7 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 10:38:48 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/11 15:41:27 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/13 16:29:44 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,62 @@
 
 int	press_key(int key, t_data *data)
 {
-	int	x;
-	int	y;
-
-	x = 0;
-	y = 0;
 	if (key == XK_Escape)
 		free_all(data);
-	else if (key == XK_w || key == XK_Up)
-		y -= 5;
-	else if (key == XK_a || key == XK_Left)
-		x -= 5;
-	else if (key == XK_d || key == XK_Right)
-		x += 5;
-	else if (key == XK_s || key == XK_Down)
-		y += 5;
+	else if (key == XK_w)
+		move_w(data);
+	else if (key == XK_a)
+		move_a(data);
+	else if (key == XK_d)
+		move_d(data);
+	else if (key == XK_s)
+		move_s(data);
+	else if (key == XK_Left || key == XK_Right)
+		modify_rot(data, key);
 	else
 		return (1);
-	if (walled(data, x, y))
+	update_changes(data);
+	/*if (walled(data, x, y))
 		return (1);
-	update_player(data, x, y);
+	update_player(data, x, y);*/
 	return (1);
 }
 
-int	walled(t_data *data, int x, int y)
+void	move_w(t_data *data)
+{
+	data->ray.x = cos(data->ray.rot) * 5;
+	data->ray.y = -sin(data->ray.rot) * 5;
+}
+
+void	move_a(t_data *data)
+{
+	data->ray.x = cos(data->ray.rot + PI / 2) * 5;
+	data->ray.y = -sin(data->ray.rot + PI / 2) * 5;
+}
+
+void	move_d(t_data *data)
+{
+	data->ray.x = cos(data->ray.rot - PI / 2) * 5;
+	data->ray.y = -sin(data->ray.rot - PI / 2) * 5;
+}
+
+void	move_s(t_data *data)
+{
+	data->ray.x = -cos(data->ray.rot) * 5;
+	data->ray.y = sin(data->ray.rot) * 5;
+}
+
+void	modify_rot(t_data *data, int key)
+{
+	if (key == XK_Left)
+		data->ray.rot += ROT_SPEED;
+	else
+		data->ray.rot -= ROT_SPEED;
+	data->ray.dirX = cos(data->ray.rot);
+	data->ray.dirY = -sin(data->ray.rot);
+}
+
+/*int	walled(t_data *data, int x, int y)
 {
 	t_map	*tmp;
 	int		up;
@@ -61,4 +93,4 @@ int	walled(t_data *data, int x, int y)
 	else if (find_block_pixel(data, left, down)->content == '1')
 		return (1);
 	return (0);
-}
+}*/

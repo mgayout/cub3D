@@ -6,7 +6,7 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:19:07 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/11 13:11:08 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/13 13:43:55 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,9 +107,9 @@ t_map	*new_map(t_data *data)
 
 	new = NULL;
 	i = 0;
-	while (i != data->size.xmax + 3)
+	while (i != data->ray.xmax + 3)
 	{
-		if (i == data->size.xmax + 2)
+		if (i == data->ray.xmax + 2)
 			add_map(&new, ' ', 0, 1);
 		else
 			add_map(&new, ' ', i, 0);
@@ -128,18 +128,18 @@ t_map	*new_map2(t_data *data, t_map *new)
 	while (tmp)
 	{
 		add_map(&new, tmp->content, tmp->x + 1, tmp->y + 1);
-		if (tmp->x == (data->size.xmax - 1))
+		if (tmp->x == (data->ray.xmax - 1))
 		{
-			add_map(&new, ' ', data->size.xmax + 1, i);
+			add_map(&new, ' ', data->ray.xmax + 1, i);
 			add_map(&new, ' ', 0, i + 1);
 			i++;
 		}
 		tmp = tmp->next;
 	}
 	i = 0;
-	while (i != data->size.xmax + 1)
+	while (i != data->ray.xmax + 1)
 	{
-		add_map(&new, ' ', i + 1, data->size.ymax + 1);
+		add_map(&new, ' ', i + 1, data->ray.ymax + 1);
 		i++;
 	}
 	return (new);
