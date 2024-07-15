@@ -6,7 +6,7 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 10:33:12 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/15 12:17:14 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/13 16:40:30 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ int	free_all(t_data *data)
 {
 	free_texture(data->parse.texture_path);
 	free_map(&data->parse.map);
-	//free(data->len_rayons);
+	free(data->len_rayons);
 	//free_intab(data->tab_walls, (data->ray.ymax + 1));
 	//free_buffer(data, data->buffer);
 	mlx_destroy_window(data->mlx, data->mlx_win);
-	mlx_destroy_image(data->mlx, data->draw.img.mlx_img);
+	mlx_destroy_image(data->mlx, data->img.mlx_img);
 	mlx_destroy_image(data->mlx, data->texture.nwall.mlx_img);
 	mlx_destroy_image(data->mlx, data->texture.ewall.mlx_img);
 	mlx_destroy_image(data->mlx, data->texture.swall.mlx_img);
@@ -62,8 +62,8 @@ void	free_buffer(t_data *data)
 
 	i = -1;
 	while (++i < HEIGHT)
-		free(data->draw.buffer[i]);
-	free(data->draw.buffer);
+		free(data->buffer[i]);
+	free(data->buffer);
 }
 
 void	free_tab(char **str)

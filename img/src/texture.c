@@ -6,7 +6,7 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 12:02:36 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/15 12:17:47 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/13 13:47:04 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ void	init_texture(t_data *data)
 		data->texture.f_wall = create_rgb(ft_atoi(arg[0]), ft_atoi(arg[1]), ft_atoi(arg[2]));
 		free_tab(arg);
 	}
-	data->draw.img.mlx_img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
-	data->draw.img.addr = mlx_get_data_addr(data->draw.img.mlx_img, &data->draw.img.bpp,
-			&data->draw.img.line_len, &data->draw.img.endian);
+	data->img.mlx_img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
+	data->img.addr = mlx_get_data_addr(data->img.mlx_img, &data->img.bpp,
+			&data->img.line_len, &data->img.endian);
 
 	data->texture.nwall.mlx_img = mlx_xpm_file_to_image(data->mlx,
 			data->parse.texture_path[0], &data->texture.nwall.tex_width,
@@ -61,7 +61,7 @@ void	init_texture(t_data *data)
 			&data->texture.wwall.endian);
 }
 
-void	my_mlx_pixel_put(t_image *img, int x, int y, int color)
+void	my_mlx_pixel_put(t_tex *img, int x, int y, int color)
 {
 	char	*dst;
 

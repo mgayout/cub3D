@@ -12,27 +12,83 @@
 
 #include "../../includes/cube3D.h"
 
-void	set_first_draw(t_data *data)
+void	draw(t_data *data)
 {
-	put_cf_in_buffer(data);
-	//put_walls(data);
+	init_buffer(data);
+	draw_cf(data);
+	draw_wall(data);
 	init_img(data);
-	mlx_put_image_to_window(data->mlx, data->mlx_win, data->img.mlx_img, 0, 0);
 }
 
-void	update_changes(t_data *data)
+void	init_buffer(t_data *data)
+{
+	int	i;
+	
+	i = -1;
+	data->draw.buffer = malloc(sizeof(int *) * HEIGHT);
+	while (++i < HEIGHT)
+		data->draw.buffer[i] = malloc(sizeof(int) * WIDTH);
+}
+
+void	draw_cf(t_data *data)
+{
+	int	x;
+	int	y;
+	
+	y = -1;
+	while (++y < (HEIGHT / 2))
+	{
+		x = -1;
+		while (++x < WIDTH)
+			data->draw.buffer[y][x] = data->texture.c_wall;
+	}
+	while (++y < HEIGHT)
+	{
+		x = -1;
+		while (++x < WIDTH)
+			data->draw.buffer[y][x] = data->texture.f_wall;
+	}
+}
+
+void	draw_wall(t_data *data)
 {
 	int	i;
 
-	//player_moove
-	//cam_moove
-	raycasting(data);
 	i = -1;
-	while (++i < DEGREES)
-		printf("%d = %f\n", i, data->len_rayons[i]);
+	while (++i < WIDTH)
+	{
+		init_ray(&data->ray);
+		data->ray.camera = 2 * i / (double)WIDTH - 1;
+		data->ray.ray_dirx = data->player.dirx + data->player.planex
+			* data->ray.camera;
+		data->ray.ray_diry = data->player.diry + data->player.planey
+			* data->ray.camera;
+		data->ray.mapx = (int)data->player.posx;
+		data->ray.mapy = (int)data->player.posy;
+		calculate_delta(data);
+		calculate_side_dist(data);
+		exec_dda(data, i);
+		calc_perp_wall_dist(data);
+		calc_height_wall(data);
+		init_tex_dir(data);
+		calc_wall_x(data);
+		calc_x_coord_tex(data);
+		color_x_stripe(data, i);
+	}
+}
 
-	put_cf_in_buffer(data);
-	//put_walls(data);
-	init_img(data);
-	mlx_put_image_to_window(data->mlx, data->mlx_win, data->img.mlx_img, 0, 0);
+void	init_img(t_data *data)
+{
+	int	x;
+	int	y;
+	
+	y = -1;
+	while (++y < HEIGHT)
+	{
+		x = -1;
+		while (++x < WIDTH)
+			my_mlx_pixel_put(&data->draw.img, x, y, data->draw.buffer[y][x]);
+	}
+	free_buffer(data);
+	mlx_put_image_to_window(data->mlx, data->mlx_win, data->draw.img.mlx_img, 0, 0);
 }

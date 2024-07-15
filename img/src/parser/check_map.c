@@ -6,7 +6,7 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:19:07 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/15 12:26:00 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/13 13:43:55 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	check_map(t_data *data)
 {
+	fill_map(data, &data->parse.map);
 	if (!valid_char(data))
 	{
 		printf("Error\nInvalid char\n");
@@ -102,15 +103,13 @@ int	closed_map(t_data *data)
 t_map	*new_map(t_data *data)
 {
 	t_map	*new;
-	int		xmax;
 	int		i;
 
 	new = NULL;
-	xmax = find_xmax(&data->parse.map);
 	i = 0;
-	while (i != xmax + 3)
+	while (i != data->ray.xmax + 3)
 	{
-		if (i == xmax + 2)
+		if (i == data->ray.xmax + 2)
 			add_map(&new, ' ', 0, 1);
 		else
 			add_map(&new, ' ', i, 0);
@@ -122,27 +121,25 @@ t_map	*new_map(t_data *data)
 t_map	*new_map2(t_data *data, t_map *new)
 {
 	t_map	*tmp;
-	int		xmax;
 	int		i;
 
 	tmp = data->parse.map;
-	xmax = find_xmax(&data->parse.map);
 	i = 1;
 	while (tmp)
 	{
 		add_map(&new, tmp->content, tmp->x + 1, tmp->y + 1);
-		if (tmp->x == (xmax - 1))
+		if (tmp->x == (data->ray.xmax - 1))
 		{
-			add_map(&new, ' ', xmax + 1, i);
+			add_map(&new, ' ', data->ray.xmax + 1, i);
 			add_map(&new, ' ', 0, i + 1);
 			i++;
 		}
 		tmp = tmp->next;
 	}
 	i = 0;
-	while (i != xmax + 1)
+	while (i != data->ray.xmax + 1)
 	{
-		add_map(&new, ' ', i + 1, find_ymax(&data->parse.map) + 1);
+		add_map(&new, ' ', i + 1, data->ray.ymax + 1);
 		i++;
 	}
 	return (new);

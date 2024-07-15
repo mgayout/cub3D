@@ -6,7 +6,7 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:36:11 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/15 12:21:14 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/13 13:44:22 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	content_down(t_data *data, t_map *map)
 	x = map->x;
 	y = map->y;
 	//printf("new : x = %d | y = %d\n", x, y);
-	if (y == find_ymax(&data->parse.map) + 1)
+	if (y == data->ray.ymax + 1)
 		return (' ');
 	tmp = tmp->next;
 	while (tmp && (tmp->x != x || tmp->y != y + 1))
@@ -82,3 +82,44 @@ int	ft_atoi_color(char *str)
 		return (256);
 	return (result * sign);
 }
+
+
+void	fill_map(t_data *data, t_map **map)
+{
+	t_map	*tmp;
+	int		x;
+	
+	tmp = *map;
+	while (tmp)
+	{
+		if (((tmp->next && tmp->next->y > tmp->y) || !tmp->next) && tmp->x != data->ray.xmax)
+		{
+			x = tmp->x + 1;
+			while (x < data->ray.xmax)
+			{
+				add_map_space(tmp, ' ', x, tmp->y);
+				tmp = tmp->next;
+				x++;
+			}
+		}
+		if (tmp->next && tmp->next->y > tmp->y + 1)
+			add_map_space(tmp, ' ', 0, tmp->y + 1);
+		tmp = tmp->next;
+	}
+}
+
+void	add_map_space(t_map *map, char c, int x, int y)
+{
+	t_map	*new;
+	t_map	*next;
+
+	new = malloc(sizeof(t_map) * 1);
+	next = map->next;
+	new->content = c;
+	new->x = x;
+	new->y = y;
+	new->prev = map;
+	new->next = next;
+	map->next = new;
+}
+

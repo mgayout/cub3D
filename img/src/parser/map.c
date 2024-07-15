@@ -6,7 +6,7 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 10:33:03 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/15 12:26:23 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/11 11:40:37 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,6 @@ int	init_map(t_data *data, char *file, int start)
 		}
 		y++;
 	}
-	//print_map(map);
-	//printf("\n");
-	fill_map(&map);
-	//print_map(map);
 	data->parse.map = map;
 	return (0);
 }
@@ -64,45 +60,4 @@ void	add_map(t_map **map, char content, int x, int y)
 		new->prev = last;
 		new->next = NULL;
 	}
-}
-
-void	fill_map(t_map **map)
-{
-	t_map	*tmp;
-	int		xmax;
-	int		x;
-	
-	tmp = *map;
-	xmax = find_xmax(map);
-	while (tmp)
-	{
-		if (((tmp->next && tmp->next->y > tmp->y) || !tmp->next) && tmp->x != xmax)
-		{
-			x = tmp->x + 1;
-			while (x < xmax)
-			{
-				add_map_space(tmp, ' ', x, tmp->y);
-				tmp = tmp->next;
-				x++;
-			}
-		}
-		if (tmp->next && tmp->next->y > tmp->y + 1)
-			add_map_space(tmp, ' ', 0, tmp->y + 1);
-		tmp = tmp->next;
-	}
-}
-
-void	add_map_space(t_map *map, char c, int x, int y)
-{
-	t_map	*new;
-	t_map	*next;
-
-	new = malloc(sizeof(t_map) * 1);
-	next = map->next;
-	new->content = c;
-	new->x = x;
-	new->y = y;
-	new->prev = map;
-	new->next = next;
-	map->next = new;
 }

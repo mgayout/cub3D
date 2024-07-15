@@ -6,7 +6,7 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 09:22:16 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/15 11:50:53 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/13 13:47:50 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,8 @@
 t_map	*find_block(t_data *data, int x, int y)
 {
 	t_map	*tmp;
-	int		xmax;
-	int		ymax;
 
-	xmax = find_xmax(&data->parse.map);
-	ymax = find_ymax(&data->parse.map);
-	if (x < 0 || y < 0 || x > xmax || y > ymax)
+	if (x < 0 || y < 0 || x > data->ray.xmax || y > data->ray.ymax)
 		return (NULL);
 	tmp = data->parse.map;
 	while (tmp && (tmp->x != x || tmp->y != y))

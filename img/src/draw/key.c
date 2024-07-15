@@ -6,59 +6,67 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 10:38:48 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/15 14:39:32 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/13 16:29:44 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cube3D.h"
-
-void	key_signal(t_data *data)
-{
-	mlx_hook(data->mlx_win, KeyPress, KeyPressMask, &press_key, data);
-	mlx_hook(data->mlx_win, KeyRelease, KeyReleaseMask, &release_key, data);
-	mlx_hook(data->mlx_win, 17, 0, &free_all, data);
-}
 
 int	press_key(int key, t_data *data)
 {
 	if (key == XK_Escape)
 		free_all(data);
 	else if (key == XK_w)
-		data->key.up = 1;
+		move_w(data);
 	else if (key == XK_a)
-		data->key.left = 1;
+		move_a(data);
 	else if (key == XK_d)
-		data->key.right = 1;
+		move_d(data);
 	else if (key == XK_s)
-		data->key.down = 1;
-	else if (key == XK_Left)
-		data->key.cam_left = 1; 
-	else if (key == XK_Right)
-		data->key.cam_right = 1;
+		move_s(data);
+	else if (key == XK_Left || key == XK_Right)
+		modify_rot(data, key);
 	else
 		return (1);
-	move(data);
-	draw(data);
+	update_changes(data);
+	/*if (walled(data, x, y))
+		return (1);
+	update_player(data, x, y);*/
 	return (1);
 }
 
-int	release_key(int key, t_data *data)
+void	move_w(t_data *data)
 {
-	if (key == XK_w)
-		data->key.up = 0;
-	else if (key == XK_a)
-		data->key.left = 0;
-	else if (key == XK_d)
-		data->key.right = 0;
-	else if (key == XK_s)
-		data->key.down = 0;
-	else if (key == XK_Left)
-		data->key.cam_left = 0; 
-	else if (key == XK_Right)
-		data->key.cam_right = 0;
+	data->ray.x = cos(data->ray.rot) * 5;
+	data->ray.y = -sin(data->ray.rot) * 5;
+}
+
+void	move_a(t_data *data)
+{
+	data->ray.x = cos(data->ray.rot + PI / 2) * 5;
+	data->ray.y = -sin(data->ray.rot + PI / 2) * 5;
+}
+
+void	move_d(t_data *data)
+{
+	data->ray.x = cos(data->ray.rot - PI / 2) * 5;
+	data->ray.y = -sin(data->ray.rot - PI / 2) * 5;
+}
+
+void	move_s(t_data *data)
+{
+	data->ray.x = -cos(data->ray.rot) * 5;
+	data->ray.y = sin(data->ray.rot) * 5;
+}
+
+void	modify_rot(t_data *data, int key)
+{
+	if (key == XK_Left)
+		data->ray.rot += ROT_SPEED;
 	else
-		return (1);
-	return (1);
+		data->ray.rot -= ROT_SPEED;
+	data->ray.dirX = cos(data->ray.rot);
+	data->ray.dirY = -sin(data->ray.rot);
 }
 
 /*int	walled(t_data *data, int x, int y)

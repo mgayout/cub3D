@@ -6,7 +6,7 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 08:14:35 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/15 14:21:36 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/13 16:35:35 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,11 @@ int	main(int argc, char **argv)
 		print_error("Error\nBad map format.\n");
 	init_file(&data, argv[1]);
 	init_arg(&data);
+	init_ray(&data);
 	if (check_texture(&data) && check_map(&data))
 	{
 		data.mlx = mlx_init();
+		init_texture(&data);
 		init_game(&data);
 	}
 	else
@@ -45,10 +47,9 @@ int	main(int argc, char **argv)
 
 void	init_game(t_data *data)
 {
-	init_data(data);
-	init_texture(data);
 	data->mlx_win = mlx_new_window(data->mlx, WIDTH, HEIGHT, "cub3D");
-	draw(data);
-	key_signal(data);
+	set_first_draw(data);
+	mlx_hook(data->mlx_win, KeyPress, KeyPressMask, &press_key, data);
+	mlx_hook(data->mlx_win, 17, 0, &free_all, data);
 	mlx_loop(data->mlx);
 }
