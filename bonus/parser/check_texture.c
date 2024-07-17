@@ -6,11 +6,11 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 12:18:33 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/17 14:50:49 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/17 16:21:23 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/cube3D.h"
+#include "../../includes/cube3D_bonus.h"
 
 int	check_texture(t_data *data)
 {
@@ -19,13 +19,13 @@ int	check_texture(t_data *data)
 
 	status = 0;
 	i = 0;
-	while (i == status && i != 6)
+	while (i == status && i != 7)
 	{
 		if (!data->parse.texture_path[i])
 			ft_putstr_fd("Error\nMissing texture\n", 2);
-		else if (i <= 3 && open(data->parse.texture_path[i], O_RDONLY) == -1)
+		else if (i <= 4 && open(data->parse.texture_path[i], O_RDONLY) == -1)
 			ft_putstr_fd("Error\nBad texture\n", 2);
-		else if (i > 3 && !check_color(data->parse.texture_path[i]))
+		else if (i > 4 && !check_color(data->parse.texture_path[i]))
 			ft_putstr_fd("Error\nBad color\n", 2);
 		else
 			status++;

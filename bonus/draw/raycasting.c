@@ -10,11 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/cube3D.h"
+#include "../../includes/cube3D_bonus.h"
 
 void	init_tex_dir(t_data *data)
 {
-	if (data->ray.hit_side == 1 && data->ray.ray_diry < 0)
+	if (data->ray.door)
+		data->draw.wall.select_tex = data->texture.door;
+	else if (data->ray.hit_side == 1 && data->ray.ray_diry < 0)
 		data->draw.wall.select_tex = data->texture.nwall;
 	else if (data->ray.hit_side == 1 && data->ray.ray_diry >= 0)
 		data->draw.wall.select_tex = data->texture.swall;

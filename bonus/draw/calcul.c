@@ -6,11 +6,11 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 11:33:32 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/17 14:48:59 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/17 17:08:41 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/cube3D.h"
+#include "../../includes/cube3D_bonus.h"
 
 void	calculate_delta(t_data *data)
 {
@@ -73,8 +73,13 @@ void	exec_dda(t_data *data, int x)
 			data->ray.hit_side = 1;
 		}
 		if (find_block(data->parse.map, data->ray.mapx,
-				data->ray.mapy)->content == '1')
+				data->ray.mapy)->content == '1' || (data->key.door
+				&& find_block(data->parse.map, data->ray.mapx,
+				data->ray.mapy)->content == 'D'))
 			hit = true;
+		if (data->key.door && find_block(data->parse.map, data->ray.mapx,
+				data->ray.mapy)->content == 'D')
+			data->ray.door = 1;
 	}
 }
 

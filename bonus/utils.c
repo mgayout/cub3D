@@ -6,11 +6,11 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 09:22:16 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/17 14:15:35 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/17 15:05:26 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cube3D.h"
+#include "../includes/cube3D_bonus.h"
 
 t_map	*find_block(t_map *map, int x, int y)
 {

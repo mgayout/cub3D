@@ -6,11 +6,11 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 13:27:31 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/17 13:57:46 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/17 17:07:12 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cube3D.h"
+#include "../includes/cube3D_bonus.h"
 
 void	init_data(t_data *data)
 {
@@ -27,6 +27,10 @@ void	init_data(t_data *data)
 	data->key.left = 0;
 	data->key.cam_left = 0;
 	data->key.cam_right = 0;
+	data->key.minimap = 0;
+	data->key.minimap_updated = 0;
+	data->key.door = 0;
+	data->key.door_updated = 0;
 }
 
 void	init_player(t_data *data, t_player *player)
@@ -58,6 +62,7 @@ void	init_ray(t_ray *ray)
 	ray->mapy = 0;
 	ray->hit_side = 0;
 	ray->perp_wall_dist = 0;
+	ray->door = 0;
 }
 
 void	init_ns_dir(t_player *player)

@@ -6,11 +6,11 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:19:07 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/17 14:50:36 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/17 16:26:41 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/cube3D.h"
+#include "../../includes/cube3D_bonus.h"
 
 int	check_map(t_data *data)
 {
@@ -39,7 +39,7 @@ int	valid_char(t_data *data)
 	tmp = data->parse.map;
 	while (tmp)
 	{
-		if (!ft_strchr("10 WENS", tmp->content))
+		if (!ft_strchr("10 WENSD", tmp->content))
 			return (0);
 		tmp = tmp->next;
 	}

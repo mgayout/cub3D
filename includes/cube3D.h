@@ -6,7 +6,7 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 08:03:07 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/15 14:56:35 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/17 14:51:40 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@
 # include "../minilibx-linux/mlx.h"
 # include "../minilibx-linux/mlx_int.h"
 
-# define MOVE_SPEED 0.025
-# define ROT_SPEED 0.03
+# define MOVE_SPEED 0.05
+# define ROT_SPEED 0.05
 # define WIDTH 1500
 # define HEIGHT 1000
 
@@ -127,6 +127,8 @@ typedef struct s_parse
 	char			*file;
 	struct s_map	*map;
 	char			**texture_path;
+	int				xmax;
+	int				ymax;
 }						t_parse;
 
 typedef struct s_data
@@ -144,6 +146,7 @@ typedef struct s_data
 //MAIN
 int		print_error(char *str);
 void	init_game(t_data *data);
+int		update(t_data *data);
 
 //PARSER
 void	init_file(t_data *data, char *file);
@@ -181,8 +184,9 @@ t_map	*new_map(t_data *data);
 t_map	*new_map2(t_data *data, t_map *new);
 
 //PARSER_UTILS
+int		check_closest_block(t_map *map, int x, int y, char c);
 char	content_up(t_map *map);
-char	content_down(t_data *data, t_map *map);
+char	content_down(t_map *map);
 int		ft_atoi_color(char *str);
 
 //INIT
@@ -191,11 +195,10 @@ void	init_player(t_data *data, t_player *player);
 void	init_ns_dir(t_player *player);
 void	init_ew_dir(t_player *player);
 void	init_ray(t_ray *ray);
-void	init_draw(t_draw *draw);
-void	init_key(t_key *key);
 
 //TEXTURE
 void	init_texture(t_data *data);
+void	wall_texture(t_data *data);
 void	my_mlx_pixel_put(t_image *img, int x, int y, int color);
 int		create_rgb(int r, int g, int b);
 
@@ -227,12 +230,12 @@ void	color_x_stripe(t_data *data, int x);
 
 //MOVE
 void	move(t_data *data);
-void	move_player(t_data *data, int n);
+void	move_playerx(t_data *data, int n);
+void	move_playery(t_data *data, int n);
 void	move_cam(t_data *data, int n);
 
 //UTILS
-t_map	*find_block(t_data *data, int x, int y);
-t_map	*find_block_pixel(t_data *data, int x, int y);
+t_map	*find_block(t_map *map, int x, int y);
 t_map	*find_player(t_data *data);
 
 //FREE
@@ -241,6 +244,5 @@ void	free_texture(char **texture_path);
 void	free_map(t_map **map);
 void	free_buffer(t_data *data);
 void	free_tab(char **str);
-void	free_intab(int **i, int n);
 
 #endif

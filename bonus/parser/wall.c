@@ -6,11 +6,11 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 12:16:55 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/17 14:24:35 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/17 17:22:00 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/cube3D.h"
+#include "../../includes/cube3D_bonus.h"
 
 int	init_wall(t_data *data, char *file, int status)
 {
@@ -19,7 +19,7 @@ int	init_wall(t_data *data, char *file, int status)
 	int		j;
 
 	i = 0;
-	while (i >= 0 && file[i] && status != 6)
+	while (i >= 0 && file[i] && status != 7)
 	{
 		line = NULL;
 		j = i;
@@ -36,7 +36,7 @@ int	init_wall(t_data *data, char *file, int status)
 		}
 		i++;
 	}
-	if (status != 6)
+	if (status != 7)
 		return (-1);
 	return (i);
 }
@@ -65,7 +65,8 @@ int	check_arg(char *line)
 	}
 	if (ft_strncmp(arg[0], "NO", 3) && ft_strncmp(arg[0], "EA", 3)
 		&& ft_strncmp(arg[0], "SO", 3) && ft_strncmp(arg[0], "WE", 3)
-		&& ft_strncmp(arg[0], "F", 2) && ft_strncmp(arg[0], "C", 2))
+		&& ft_strncmp(arg[0], "F", 2) && ft_strncmp(arg[0], "C", 2)
+		&& ft_strncmp(arg[0], "D", 2))
 	{
 		free_tab(arg);
 		return (0);
@@ -87,10 +88,12 @@ int	add_texture(t_data *data, char *line)
 		data->parse.texture_path[2] = ft_strdup(arg[1]);
 	else if (!ft_strncmp(arg[0], "WE", 3) && !data->parse.texture_path[3])
 		data->parse.texture_path[3] = ft_strdup(arg[1]);
-	else if (!ft_strncmp(arg[0], "C", 2) && !data->parse.texture_path[4])
+	else if (!ft_strncmp(arg[0], "D", 2) && !data->parse.texture_path[4])
 		data->parse.texture_path[4] = ft_strdup(arg[1]);
-	else if (!ft_strncmp(arg[0], "F", 2) && !data->parse.texture_path[5])
+	else if (!ft_strncmp(arg[0], "C", 2) && !data->parse.texture_path[5])
 		data->parse.texture_path[5] = ft_strdup(arg[1]);
+	else if (!ft_strncmp(arg[0], "F", 2) && !data->parse.texture_path[6])
+		data->parse.texture_path[6] = ft_strdup(arg[1]);
 	free_tab(arg);
 	return (1);
 }

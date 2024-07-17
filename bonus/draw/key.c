@@ -6,11 +6,11 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 10:38:48 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/17 13:59:35 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/17 17:51:58 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/cube3D.h"
+#include "../../includes/cube3D_bonus.h"
 
 void	key_signal(t_data *data)
 {
@@ -35,6 +35,14 @@ int	press_key(int key, t_data *data)
 		data->key.cam_left = 1;
 	else if (key == XK_Right)
 		data->key.cam_right = 1;
+	else if (key == XK_m && data->key.minimap)
+		data->key.minimap = 0;
+	else if (key == XK_m && !data->key.minimap)
+		data->key.minimap = 1;
+	else if (key == XK_o && data->key.door)
+		data->key.door = 0;
+	else if (key == XK_o && !data->key.door)
+		data->key.door = 1;
 	else
 		return (1);
 	return (1);

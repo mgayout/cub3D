@@ -6,7 +6,7 @@
 #    By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/01 07:47:00 by mgayout           #+#    #+#              #
-#    Updated: 2024/07/09 13:58:34 by mgayout          ###   ########.fr        #
+#    Updated: 2024/07/17 16:58:53 by mgayout          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,12 +27,13 @@ MOVE_CURSOR_UP		= \033[1A
 SRCDIR		= src
 SRCDIR_B	= bonus
 OBJDIR		= obj
+OBJDIR_B	= obj_bonus
 
 SRCS	= $(shell find $(SRCDIR) -name '*.c')
 OBJS	= $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRCS))
 
 SRCS_B	= $(shell find $(SRCDIR_B) -name '*.c')
-OBJS_B	= $(patsubst $(SRCDIR_B)/%.c, $(OBJDIR)/%.o, $(SRCS_B))
+OBJS_B	= $(patsubst $(SRCDIR_B)/%.c, $(OBJDIR_B)/%.o, $(SRCS_B))
 
 INCLUDE	= ./includes
 HEADER	= ./includes/cube3D.h ./minilibx-linux/mlx_int.h ./minilibx-linux/mlx.h
@@ -92,7 +93,7 @@ $(NAME_B): $(OBJS_B) $(HEADER_B)
 	@gcc $(OBJS_B) -o $(NAME_B) ./libft/libft.a ./minilibx-linux/libmlx.a $(CFLAG) $(MLXFLAGS) $(MATHFLAGS) -I$(INCLUDE)
 	@$(call centered_echo, "\|" "Cube3D_bonus" "is" "updated" "\|", $(GREEN))
 
-$(OBJDIR)/%.o: $(SRCDIR_B)/%.c
+$(OBJDIR_B)/%.o: $(SRCDIR_B)/%.c
 	@mkdir -p $(dir $@)
 	@$(eval COUNTER=$(shell echo $$(($(COUNTER)+1))))
 	@$(call centered_echo, "Compiling" $< ($$(($(COUNTER)))/$(TOTAL_OBJS_B)), $(BLUE))
@@ -115,6 +116,7 @@ clean:
 	@$(call centered_echo, "\|" "All" "objects" "from" "MLX" "and" "MLX" "have" "been" "deleted" "\|", $(GREEN))
 	@$(call centered_echo, "\|" "Removing" "objects" "\|", $(RED))
 	@rm -rf $(OBJDIR)
+	@rm -rf $(OBJDIR_B)
 	@$(call centered_echo, "\|" "All" "objects" "have" "been" "deleted" "\|", $(GREEN))
 
 fclean: clean

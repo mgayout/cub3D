@@ -6,11 +6,11 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:36:11 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/17 14:50:46 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/17 15:07:12 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/cube3D.h"
+#include "../../includes/cube3D_bonus.h"
 
 int	check_closest_block(t_map *map, int x, int y, char c)
 {

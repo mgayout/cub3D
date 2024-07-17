@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/cube3D.h"
+#include "../../includes/cube3D_bonus.h"
 
 void	draw(t_data *data)
 {
@@ -21,6 +21,8 @@ void	draw(t_data *data)
 	init_buffer(data);
 	draw_cf(data);
 	draw_wall(data);
+	if (data->key.minimap)
+		draw_minimap(data);
 	init_img(data);
 }
 

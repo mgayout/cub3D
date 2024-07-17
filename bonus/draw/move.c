@@ -6,11 +6,11 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 14:23:06 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/17 16:11:12 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/17 17:21:38 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/cube3D.h"
+#include "../../includes/cube3D_bonus.h"
 
 void	move(t_data *data)
 {

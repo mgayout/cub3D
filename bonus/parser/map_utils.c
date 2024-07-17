@@ -6,11 +6,11 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 12:04:31 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/17 14:23:25 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/17 15:09:18 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/cube3D.h"
+#include "../../includes/cube3D_bonus.h"
 
 t_map	*last_map(t_map **map)
 {

@@ -6,11 +6,11 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 10:33:03 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/17 14:23:04 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/17 15:10:05 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/cube3D.h"
+#include "../../includes/cube3D_bonus.h"
 
 int	init_map(t_data *data, char *file, int start)
 {

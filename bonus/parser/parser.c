@@ -6,11 +6,11 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 11:32:57 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/17 13:22:38 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/17 16:17:52 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/cube3D.h"
+#include "../../includes/cube3D_bonus.h"
 
 void	init_file(t_data *data, char *file)
 {
@@ -37,8 +37,8 @@ void	init_arg(t_data *data)
 	int		start;
 
 	start = 0;
-	data->parse.texture_path = malloc(sizeof(char *) * 7);
-	while (start != 7)
+	data->parse.texture_path = malloc(sizeof(char *) * 8);
+	while (start != 8)
 		data->parse.texture_path[start++] = NULL;
 	start = init_wall(data, data->parse.file, 0);
 	data->parse.map = NULL;
