@@ -6,7 +6,7 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 08:14:35 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/17 17:54:13 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/18 11:58:28 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,24 +58,11 @@ void	init_game(t_data *data)
 
 int	update(t_data *data)
 {
-	//printf("door = %d | door updated = %d\n", data->key.door, data->key.door_updated);
 	if (data->key.up || data->key.right || data->key.down || data->key.left
-		|| data->key.cam_left || data->key.cam_right
-		|| (data->key.minimap && !data->key.minimap_updated)
-		|| (!data->key.minimap && data->key.minimap_updated)
-		|| (data->key.door && !data->key.door_updated)
-		|| (!data->key.door && data->key.door_updated))
+		|| data->key.cam_left || data->key.cam_right)
 	{
 		move(data);
 		draw(data);
-		if (data->key.minimap && !data->key.minimap_updated)
-			data->key.minimap_updated = 1;
-		else if (!data->key.minimap && data->key.minimap_updated)
-			data->key.minimap_updated = 0;
-		else if (data->key.door && !data->key.door_updated)
-			data->key.door_updated = 1;
-		else if (!data->key.door && data->key.door_updated)
-			data->key.door_updated = 0;
 	}
 	return (1);
 }

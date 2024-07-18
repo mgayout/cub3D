@@ -6,7 +6,7 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 14:23:06 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/17 17:21:38 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/18 12:04:30 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,7 @@ void	move_playerx(t_data *data, int n)
 	else if (n == 3)
 		newx = data->player.posx + data->player.diry * MOVE_SPEED;
 	if (newx > 1 && newx <= ((double)data->parse.xmax - 1)
-		&& !check_closest_block(data->parse.map, (int)newx,
-			(int)data->player.posy, ' '))
+		&& !check_wall(data, newx, 0))
 		data->player.posx = newx;
 }
 
@@ -71,8 +70,7 @@ void	move_playery(t_data *data, int n)
 	else if (n == 3)
 		newy = data->player.posy - data->player.dirx * MOVE_SPEED;
 	if (newy > 1 && newy <= ((double)data->parse.ymax - 1)
-		&& !check_closest_block(data->parse.map,
-			data->player.posx, (int)newy, ' '))
+		&& !check_wall(data, newy, 1))
 		data->player.posy = newy;
 }
 

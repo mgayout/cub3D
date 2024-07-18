@@ -6,7 +6,7 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 11:33:32 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/17 17:08:41 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/18 12:46:51 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	exec_dda(t_data *data, int x)
 		if (find_block(data->parse.map, data->ray.mapx,
 				data->ray.mapy)->content == '1' || (data->key.door
 				&& find_block(data->parse.map, data->ray.mapx,
-				data->ray.mapy)->content == 'D'))
+					data->ray.mapy)->content == 'D'))
 			hit = true;
 		if (data->key.door && find_block(data->parse.map, data->ray.mapx,
 				data->ray.mapy)->content == 'D')

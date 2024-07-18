@@ -6,12 +6,12 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:35:51 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/17 18:21:32 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/18 12:51:43 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUBE3D_H
-# define CUBE3D_H
+#ifndef CUBE3D_BONUS_H
+# define CUBE3D_BONUS_H
 
 # include <fcntl.h>
 # include <unistd.h>
@@ -42,9 +42,7 @@ typedef struct s_key
 	int		cam_left;
 	int		cam_right;
 	int		minimap;
-	int		minimap_updated;
 	int		door;
-	int		door_updated;
 }				t_key;
 
 typedef struct s_image
@@ -74,7 +72,9 @@ typedef struct s_draw
 	int					draw_start;
 	int					draw_end;
 	int					**buffer;
+	int					**buff_mini;
 	struct s_image		img;
+	struct s_image		minimap;
 }						t_draw;
 
 typedef struct s_ray
@@ -122,6 +122,8 @@ typedef struct s_player
 	int				y;
 	double			posx;
 	double			posy;
+	double			old_posx;
+	double			old_posy;
 	double			dirx;
 	double			diry;
 	double			planex;
@@ -227,6 +229,7 @@ void	init_img(t_data *data);
 //KEY
 void	key_signal(t_data *data);
 int		press_key(int key, t_data *data);
+int		bonus_key(int key, t_data *data);
 int		release_key(int key, t_data *data);
 
 //CALCUL
@@ -244,19 +247,24 @@ void	calc_x_coord_tex(t_data *data);
 void	color_x_stripe(t_data *data, int x);
 
 //MINIMAP
+void	init_minimap(t_data *data);
+void	init_buff_mini(t_data *data);
 void	draw_minimap(t_data *data);
-t_map	*find_minimap_pos(t_data *data, int x, int y);
-t_map	*find_prev_pos(t_data *data, int x, int y);
-t_map	*find_next_pos(t_data *data, int x, int y);
-int		draw_minimap_wall(t_data *data, int x, int y);
-int		draw_minimap_door(t_data *data, int x, int y);
-int		draw_minimap_player(t_data *data, int x, int y);
+void	draw_minimap_block(t_data *data, t_map *tmp, int i);
+void	draw_minimap_buffer(t_data *data, int color, int i);
+void	init_img_minimap(t_data *data);
 
 //MOVE
 void	move(t_data *data);
 void	move_playerx(t_data *data, int n);
 void	move_playery(t_data *data, int n);
 void	move_cam(t_data *data, int n);
+
+//CHECK_WALL
+int		check_wall(t_data *data, int newpos, int n);
+
+//MOUSE
+int		mouse(int x, int y, t_data *data);
 
 //UTILS
 t_map	*find_block(t_map *map, int x, int y);
@@ -266,7 +274,7 @@ t_map	*find_player(t_data *data);
 int		free_all(t_data *data);
 void	free_texture(char **texture_path);
 void	free_map(t_map **map);
-void	free_buffer(t_data *data);
+void	free_buffer(int **buffer, int n);
 void	free_tab(char **str);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 10:33:12 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/17 16:24:09 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/18 10:36:18 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ int	free_all(t_data *data)
 	mlx_destroy_image(data->mlx, data->texture.swall.mlx_img);
 	mlx_destroy_image(data->mlx, data->texture.wwall.mlx_img);
 	mlx_destroy_image(data->mlx, data->texture.door.mlx_img);
+	if (data->player.old_posx && data->player.old_posy)
+		mlx_destroy_image(data->mlx, data->draw.minimap.mlx_img);
 	mlx_destroy_display(data->mlx);
 	free(data->mlx);
 	exit(0);
@@ -53,14 +55,19 @@ void	free_map(t_map **map)
 	}
 }
 
-void	free_buffer(t_data *data)
+void	free_buffer(int **buffer, int n)
 {
+	int	max;
 	int	i;
 
+	if (n == 0)
+		max = HEIGHT;
+	else
+		max = 180;
 	i = -1;
-	while (++i < HEIGHT)
-		free(data->draw.buffer[i]);
-	free(data->draw.buffer);
+	while (++i < max)
+		free(buffer[i]);
+	free(buffer);
 }
 
 void	free_tab(char **str)

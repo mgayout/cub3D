@@ -6,7 +6,7 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 13:27:31 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/17 17:07:12 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/18 11:58:49 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,7 @@ void	init_data(t_data *data)
 	data->key.cam_left = 0;
 	data->key.cam_right = 0;
 	data->key.minimap = 0;
-	data->key.minimap_updated = 0;
 	data->key.door = 0;
-	data->key.door_updated = 0;
 }
 
 void	init_player(t_data *data, t_player *player)
@@ -41,6 +39,8 @@ void	init_player(t_data *data, t_player *player)
 	player->dir = tmp->content;
 	player->posx = tmp->x + 0.5;
 	player->posy = tmp->y + 0.5;
+	player->old_posx = 0;
+	player->old_posy = 0;
 	if (player->dir == 'N' || player->dir == 'S')
 		init_ns_dir(player);
 	else

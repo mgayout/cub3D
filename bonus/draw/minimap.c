@@ -6,140 +6,129 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 17:24:00 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/17 18:23:47 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/18 12:50:01 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cube3D_bonus.h"
 
-void	draw_minimap(t_data *data)
+void	init_minimap(t_data *data)
 {
-	t_map	*tmp;
-	int		x;
-	int		y;
+	if (!data->player.old_posx && !data->player.old_posy)
+	{
+		data->draw.minimap.mlx_img = mlx_new_image(data->mlx, 220, 220);
+		data->draw.minimap.addr = mlx_get_data_addr(data->draw.minimap.mlx_img,
+				&data->draw.minimap.bpp, &data->draw.minimap.line_len,
+				&data->draw.minimap.endian);
+	}
+	init_buff_mini(data);
+	draw_minimap(data);
+	init_img_minimap(data);
+	mlx_put_image_to_window(data->mlx, data->mlx_win,
+		data->draw.minimap.mlx_img, 0, 0);
+	data->player.old_posx = data->player.posx;
+	data->player.old_posy = data->player.posy;
+}
 
+void	init_buff_mini(t_data *data)
+{
+	int	x;
+	int	y;
+	int	i;
+	int	color;
+
+	i = -1;
+	data->draw.buff_mini = malloc(sizeof(int *) * 180);
+	while (++i < 180)
+		data->draw.buff_mini[i] = malloc(sizeof(int) * 180);
+	color = create_rgb(0, 0, 0);
 	y = -1;
-	while (++y != 240)
+	while (++y < 180)
 	{
 		x = -1;
-		while (++x != 240)
+		while (++x < 180)
+			data->draw.buff_mini[y][x] = color;
+	}
+}
+
+void	draw_minimap(t_data *data)
+{
+	t_map	*player;
+	t_map	*tmp;
+	int		i;
+	int		*pos;
+
+	player = find_block(data->parse.map, data->player.posx, data->player.posy);
+	pos = malloc(sizeof(int) * 2);
+	i = -1;
+	while (++i < 81)
+	{
+		pos[0] = (player->x - 4) + (i % 9);
+		pos[1] = (player->y - 4) + (i / 9);
+		if (i == 40)
+			tmp = player;
+		else
+			tmp = find_block(data->parse.map, pos[0], pos[1]);
+		if (tmp)
+			draw_minimap_block(data, tmp, i);
+	}
+	free(pos);
+}
+
+void	draw_minimap_block(t_data *data, t_map *tmp, int i)
+{
+	int	color;
+
+	if (i == 40)
+	{
+		color = create_rgb(255, 0, 0);
+		data->draw.buff_mini[90][90] = color;
+		data->draw.buff_mini[90][91] = color;
+		data->draw.buff_mini[91][90] = color;
+		data->draw.buff_mini[91][91] = color;
+	}
+	else if (tmp->content == 'D' && data->key.door)
+		draw_minimap_buffer(data, create_rgb(0, 0, 255), i);
+	else if (tmp->content == '1')
+		draw_minimap_buffer(data, create_rgb(255, 255, 255), i);
+}
+
+void	draw_minimap_buffer(t_data *data, int color, int i)
+{
+	int	x;
+	int	y;
+	int	xmax;
+	int	ymax;
+
+	y = (i / 9) * 20;
+	ymax = y + 20;
+	while (y < ymax)
+	{
+		x = (i % 9) * 20;
+		xmax = x + 20;
+		while (x < xmax)
 		{
-			if ((x >= 20 && x <= 220) && (y >= 20 && y <= 220))
-			{
-				tmp = find_minimap_pos(data, x, y);
-				if (tmp && tmp->content == '1')
-					x = draw_minimap_wall(data, x, y);
-				else if (tmp && (tmp->content == 'D' && data->key.minimap))
-					x = draw_minimap_door(data, x, y);
-				else if (tmp && (tmp->content == 'N' || tmp->content == 'E'
-					|| tmp->content == 'S' || tmp->content == 'W'))
-					x = draw_minimap_player(data, x, y);
-				else
-					data->draw.buffer[y][x] = 0;
-			}
-			else
-				data->draw.buffer[y][x] = 0;
+			if ((y >= ymax - 19 && y <= ymax - 1)
+				&& (x >= xmax - 19 && x <= xmax - 1))
+				data->draw.buff_mini[y][x] = color;
+			x++;
 		}
+		y++;
 	}
 }
 
-t_map	*find_minimap_pos(t_data *data, int x, int y)
+void	init_img_minimap(t_data *data)
 {
-	t_map	*tmp;
+	int	x;
+	int	y;
 
-	if ((y / 20) < 5 || ((y / 20) == 5 && (x / 20) < 5))
-		tmp = find_prev_pos(data, x, y);
-	else if ((y / 20) > 5 || ((y / 20) == 5 && (x / 20) > 5))
-		tmp = find_next_pos(data, x, y);
-	else
-		tmp = find_player(data);
-	return (tmp);
-}
-
-t_map	*find_prev_pos(t_data *data, int x, int y)
-{
-	t_map	*tmp;
-	int		i;
-	
-	i = 0;
-	while (tmp && i != (y / 20))
+	y = 19;
+	while (++y < 200)
 	{
-		tmp = find_block(data->parse.map, tmp->x, tmp->y - 1);
-		i++;
+		x = 19;
+		while (++x < 200)
+			my_mlx_pixel_put(&data->draw.minimap, x, y,
+				data->draw.buff_mini[y - 20][x - 20]);
 	}
-	i = 0;
-	while (tmp && (i != (x / 20)))
-	{
-		tmp = tmp->prev;
-		i++;
-	}
-	return (tmp);
-}
-
-t_map	*find_next_pos(t_data *data, int x, int y)
-{
-	t_map	*tmp;
-	int		i;
-	
-	i = 0;
-	while (tmp && i != (y / 20))
-	{
-		tmp = find_block(data->parse.map, tmp->x, tmp->y + 1);
-		i++;
-	}
-	i = 0;
-	while (tmp && (i != (x / 20)))
-	{
-		tmp = tmp->next;
-		i++;
-	}
-	return (tmp);
-}
-
-int	draw_minimap_wall(t_data *data, int x, int y)
-{
-	int	newx;
-	
-	newx = x;
-	while (newx != (x + 20))
-	{
-		if (newx == x || newx == (x + 19))
-			data->draw.buffer[y][x] = 0;
-		else
-			data->draw.buffer[y][x] = 0xFFFFFF;
-		newx++;
-	}
-	return (newx);
-}
-
-int	draw_minimap_door(t_data *data, int x, int y)
-{
-	int	newx;
-	
-	newx = x;
-	while (newx != (x + 20))
-	{
-		if (newx == x || newx == (x + 19))
-			data->draw.buffer[y][x] = 0;
-		else
-			data->draw.buffer[y][x] = 0x0000FF;
-		newx++;
-	}
-	return (newx);
-}
-
-int	draw_minimap_player(t_data *data, int x, int y)
-{
-	int	newx;
-	
-	newx = x;
-	while (newx != (x + 20))
-	{
-		if (newx == 10 || newx == 11)
-			data->draw.buffer[y][x] = 0xFF0000;
-		else
-			data->draw.buffer[y][x] = 0;
-		newx++;
-	}
-	return (newx);
+	free_buffer(data->draw.buff_mini, 1);
 }

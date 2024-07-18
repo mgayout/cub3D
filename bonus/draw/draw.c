@@ -21,9 +21,9 @@ void	draw(t_data *data)
 	init_buffer(data);
 	draw_cf(data);
 	draw_wall(data);
-	if (data->key.minimap)
-		draw_minimap(data);
 	init_img(data);
+	if (data->key.minimap)
+		init_minimap(data);
 }
 
 void	init_buffer(t_data *data)
@@ -95,7 +95,7 @@ void	init_img(t_data *data)
 		while (++x < WIDTH)
 			my_mlx_pixel_put(&data->draw.img, x, y, data->draw.buffer[y][x]);
 	}
-	free_buffer(data);
+	free_buffer(data->draw.buffer, 0);
 	mlx_put_image_to_window(data->mlx, data->mlx_win,
 		data->draw.img.mlx_img, 0, 0);
 	mlx_destroy_image(data->mlx, data->draw.img.mlx_img);

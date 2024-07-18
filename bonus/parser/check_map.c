@@ -6,7 +6,7 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:19:07 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/17 16:26:41 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/18 11:10:31 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,8 @@ int	closed_map(t_data *data)
 	{
 		if (tmp->content == ' ')
 		{
-			if (check_closest_block(tmp, tmp->x, tmp->y, '0'))
+			if (check_closest_block(tmp, tmp->x, tmp->y, '0')
+				|| check_closest_block(tmp, tmp->x, tmp->y, 'D'))
 			{
 				status = 0;
 				break ;
