@@ -6,7 +6,7 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 11:33:32 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/18 12:46:51 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/22 11:37:34 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,12 @@ void	calculate_side_dist(t_data *data)
 	}
 }
 
-void	exec_dda(t_data *data, int x)
+t_map	*exec_dda(t_data *data)
 {
 	bool	hit;
 
-	(void)x;
 	hit = false;
-	while (hit == false)
+	while (!hit)
 	{
 		if (data->ray.side_distx < data->ray.side_disty)
 		{
@@ -73,14 +72,12 @@ void	exec_dda(t_data *data, int x)
 			data->ray.hit_side = 1;
 		}
 		if (find_block(data->parse.map, data->ray.mapx,
-				data->ray.mapy)->content == '1' || (data->key.door
-				&& find_block(data->parse.map, data->ray.mapx,
+				data->ray.mapy)->content == '1'
+			|| (data->key.door && find_block(data->parse.map, data->ray.mapx,
 					data->ray.mapy)->content == 'D'))
 			hit = true;
-		if (data->key.door && find_block(data->parse.map, data->ray.mapx,
-				data->ray.mapy)->content == 'D')
-			data->ray.door = 1;
 	}
+	return (find_block(data->parse.map, data->ray.mapx, data->ray.mapy));
 }
 
 void	calc_perp_wall_dist(t_data *data)

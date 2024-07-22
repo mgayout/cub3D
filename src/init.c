@@ -6,7 +6,7 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 13:27:31 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/17 13:57:46 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/22 13:11:09 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,15 +64,15 @@ void	init_ns_dir(t_player *player)
 {
 	if (player->dir == 'N')
 	{
-		player->dirx = 0;
-		player->diry = -1;
+		player->dirx = 0.01;
+		player->diry = -1.01;
 		player->planex = 0.66;
 		player->planey = 0.0;
 	}
 	else if (player->dir == 'S')
 	{
-		player->dirx = 0;
-		player->diry = 1;
+		player->dirx = 0.01;
+		player->diry = 1.01;
 		player->planex = -0.66;
 		player->planey = 0.0;
 	}
@@ -82,16 +82,16 @@ void	init_ew_dir(t_player *player)
 {
 	if (player->dir == 'E')
 	{
-		player->dirx = 1;
-		player->diry = 0;
-		player->planex = 0;
+		player->dirx = 1.01;
+		player->diry = 0.01;
+		player->planex = 0.0;
 		player->planey = 0.66;
 	}
 	else if (player->dir == 'W')
 	{
-		player->dirx = -1;
-		player->diry = 0;
-		player->planex = 0;
+		player->dirx = -1.01;
+		player->diry = 0.01;
+		player->planex = 0.0;
 		player->planey = -0.66;
 	}
 }

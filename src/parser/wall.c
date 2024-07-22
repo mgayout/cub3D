@@ -6,7 +6,7 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 12:16:55 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/17 14:24:35 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/22 12:31:46 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	check_arg(char *line)
 	char	**arg;
 
 	arg = ft_split(line, ' ');
-	if (!arg[0] || !arg[1] || arg[2])
+	if (!arg[1] || arg[2])
 	{
 		free_tab(arg);
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:35:51 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/18 12:51:43 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/22 14:47:00 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,10 +185,10 @@ void	add_map_space(t_map *map, char c, int x, int y);
 t_map	*last_map(t_map **map);
 int		find_xmax(t_map **map);
 int		find_ymax(t_map **map);
-void	print_map(t_map *map);
 
 //CHECK_TEXTURE
 int		check_texture(t_data *data);
+int		is_a_xpm(char *str);
 int		check_color(char *str);
 int		check_coma(char *str);
 
@@ -235,12 +235,11 @@ int		release_key(int key, t_data *data);
 //CALCUL
 void	calculate_delta(t_data *data);
 void	calculate_side_dist(t_data *data);
-void	exec_dda(t_data *data, int x);
+t_map	*exec_dda(t_data *data);
 void	calc_perp_wall_dist(t_data *data);
 void	calc_height_wall(t_data *data);
 
 //RAYCASTING
-void	raycasting(t_data *data);
 void	init_tex_dir(t_data *data);
 void	calc_wall_x(t_data *data);
 void	calc_x_coord_tex(t_data *data);

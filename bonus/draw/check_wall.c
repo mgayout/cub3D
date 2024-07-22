@@ -6,7 +6,7 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 12:02:14 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/18 12:50:26 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/22 11:14:54 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,6 @@ int	check_wall(t_data *data, int newpos, int n)
 		y = newpos;
 	}
 	tmp = find_block(data->parse.map, x, y);
-	/*printf("x = %d | y = %d | content = %c\n", tmp->x, tmp->y, tmp->content);
-	if (data->key.door)
-		printf("door true\n");
-	if (!data->key.door)
-		printf("door false\n");*/
 	if (tmp->content == '1' || (data->key.door && tmp->content == 'D'))
 		return (1);
 	return (0);

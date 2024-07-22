@@ -6,7 +6,7 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 10:33:03 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/17 14:23:04 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/22 13:24:48 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,11 @@ void	add_map(t_map **map, char content, int x, int y)
 	t_map	*last;
 
 	new = malloc(sizeof(t_map) * 1);
+	if (!new)
+	{
+		free_map(map);
+		exit(0);
+	}
 	new->content = content;
 	new->x = x;
 	new->y = y;
@@ -96,6 +101,11 @@ void	add_map_space(t_map *map, char c, int x, int y)
 	t_map	*next;
 
 	new = malloc(sizeof(t_map) * 1);
+	if (!new)
+	{
+		free_map(&map);
+		exit(0);
+	}
 	next = map->next;
 	new->content = c;
 	new->x = x;

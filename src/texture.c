@@ -6,7 +6,7 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 12:02:36 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/17 13:55:33 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/22 13:23:01 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,23 @@ void	init_texture(t_data *data)
 	char	**arg;
 
 	arg = ft_split(data->parse.texture_path[4], ',');
-	if (arg)
+	if (!arg)
 	{
-		data->texture.c_wall = create_rgb(ft_atoi(arg[0]),
-				ft_atoi(arg[1]), ft_atoi(arg[2]));
-		free_tab(arg);
+		free_all(data);
+		exit(0);
 	}
+	data->texture.c_wall = create_rgb(ft_atoi(arg[0]), ft_atoi(arg[1]),
+			ft_atoi(arg[2]));
+	free_tab(arg);
 	arg = ft_split(data->parse.texture_path[5], ',');
-	if (arg)
+	if (!arg)
 	{
-		data->texture.f_wall = create_rgb(ft_atoi(arg[0]),
-				ft_atoi(arg[1]), ft_atoi(arg[2]));
-		free_tab(arg);
+		free_all(data);
+		exit(0);
 	}
+	data->texture.f_wall = create_rgb(ft_atoi(arg[0]), ft_atoi(arg[1]),
+			ft_atoi(arg[2]));
+	free_tab(arg);
 	wall_texture(data);
 }
 

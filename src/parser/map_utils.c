@@ -6,7 +6,7 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 12:04:31 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/17 14:23:25 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/22 12:28:02 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,22 +52,4 @@ int	find_ymax(t_map **map)
 		tmp = tmp->next;
 	}
 	return (y + 1);
-}
-
-void	print_map(t_map *map)
-{
-	int	y;
-
-	y = 0;
-	while (map)
-	{
-		while (y < map->y)
-		{
-			printf("\n");
-			y += 1;
-		}
-		printf("%c", map->content);
-		map = map->next;
-	}
-	printf("\n");
 }

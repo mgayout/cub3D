@@ -1,12 +1,15 @@
-NO ./texture/set_1/n.xpm
-SO ./texture/set_1/s.xpm
-WE ./texture/set_1/w.xpm
-EA ./texture/set_1/e.xpm
+NO ./texture/set1/n.xpm
+SO ./texture/set1/s.xpm
+WE ./texture/set1/w.xpm
+EA ./texture/set1/e.xpm
 
 F 18,53,25
 C 153,204,255
 
 1111 1111
+1001 1001
+1001 1001
+1001 1001
 1001 1001
 100010001
 110000011

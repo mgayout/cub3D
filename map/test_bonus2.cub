@@ -1,7 +1,7 @@
-NO ./texture/set_1/n.xpm
-SO ./texture/set_1/s.xpm
-WE ./texture/set_1/w.xpm
-EA ./texture/set_1/e.xpm
+NO ./texture/set1/n.xpm
+SO ./texture/set1/s.xpm
+WE ./texture/set1/w.xpm
+EA ./texture/set1/e.xpm
 
 D ./texture/set_1/d.xpm
 

@@ -6,7 +6,7 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 12:18:33 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/17 14:50:49 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/22 14:57:25 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@ int	check_texture(t_data *data)
 	{
 		if (!data->parse.texture_path[i])
 			ft_putstr_fd("Error\nMissing texture\n", 2);
-		else if (i <= 3 && open(data->parse.texture_path[i], O_RDONLY) == -1)
+		else if (i <= 3 && (open(data->parse.texture_path[i], O_RDONLY) == -1
+				|| open(data->parse.texture_path[i], __O_DIRECTORY) != -1
+				|| !is_a_xpm(data->parse.texture_path[i])))
 			ft_putstr_fd("Error\nBad texture\n", 2);
 		else if (i > 3 && !check_color(data->parse.texture_path[i]))
 			ft_putstr_fd("Error\nBad color\n", 2);
@@ -32,6 +34,17 @@ int	check_texture(t_data *data)
 		i++;
 	}
 	if (i != status)
+		return (0);
+	return (1);
+}
+
+int	is_a_xpm(char *str)
+{
+	int	i;
+
+	i = ft_strlen(str);
+	if (i < 4 || str[i - 4] != '.' || str[i - 3] != 'x'
+		|| str[i - 2] != 'p' || str[i - 1] != 'm')
 		return (0);
 	return (1);
 }

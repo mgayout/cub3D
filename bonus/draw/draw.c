@@ -73,7 +73,8 @@ void	draw_wall(t_data *data)
 		data->ray.mapy = (int)data->player.posy;
 		calculate_delta(data);
 		calculate_side_dist(data);
-		exec_dda(data, i);
+		if (exec_dda(data)->content == 'D')
+			data->ray.door = 1;
 		calc_perp_wall_dist(data);
 		calc_height_wall(data);
 		init_tex_dir(data);
