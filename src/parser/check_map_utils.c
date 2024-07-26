@@ -6,24 +6,24 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:36:11 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/17 14:50:46 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/26 09:13:59 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cube3D.h"
 
-int	check_closest_block(t_map *map, int x, int y, char c)
+int	check_closest_block(t_map *map, int x, int y, char *str)
 {
 	t_map	*tmp;
 
 	tmp = find_block(map, x, y);
-	if (tmp->prev && tmp->prev->content == c)
+	if (tmp->prev && ft_strchr(str, tmp->prev->content))
 		return (1);
-	if (tmp->next && tmp->next->content == c)
+	if (tmp->next && ft_strchr(str, tmp->next->content))
 		return (1);
-	if (content_up(tmp) == c)
+	if (ft_strchr(str, content_up(tmp)))
 		return (1);
-	if (content_down(tmp) == c)
+	if (ft_strchr(str, content_down(tmp)))
 		return (1);
 	return (0);
 }

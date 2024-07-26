@@ -6,7 +6,7 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 12:18:33 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/22 14:57:25 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/26 09:24:20 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	check_color(char *str)
 	i = 0;
 	while (arg[i])
 	{
-		if (ft_atoi_color(arg[i]) > 255 || ft_atoi_color(arg[i]) < 0)
+		if (ft_atoi_color(arg[i]) > 255 || ft_atoi_color(arg[i]) < 0 || ft_strlen(arg[i]) > 3)
 			break ;
 		i++;
 	}

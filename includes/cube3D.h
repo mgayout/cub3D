@@ -6,7 +6,7 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 08:03:07 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/22 14:45:06 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/26 09:13:40 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,7 +184,7 @@ t_map	*new_map(t_data *data);
 t_map	*new_map2(t_data *data, t_map *new);
 
 //PARSER_UTILS
-int		check_closest_block(t_map *map, int x, int y, char c);
+int		check_closest_block(t_map *map, int x, int y, char *str);
 char	content_up(t_map *map);
 char	content_down(t_map *map);
 int		ft_atoi_color(char *str);

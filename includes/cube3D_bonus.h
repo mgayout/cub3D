@@ -6,7 +6,7 @@
 /*   By: mgayout <mgayout@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:35:51 by mgayout           #+#    #+#             */
-/*   Updated: 2024/07/22 14:47:00 by mgayout          ###   ########.fr       */
+/*   Updated: 2024/07/26 09:31:59 by mgayout          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@
 
 # define MOVE_SPEED 0.05
 # define ROT_SPEED 0.05
-# define WIDTH 1500
-# define HEIGHT 1000
+# define WIDTH 1000
+# define HEIGHT 600
 
 typedef struct s_key
 {
@@ -201,7 +201,7 @@ t_map	*new_map(t_data *data);
 t_map	*new_map2(t_data *data, t_map *new);
 
 //PARSER_UTILS
-int		check_closest_block(t_map *map, int x, int y, char c);
+int		check_closest_block(t_map *map, int x, int y, char *str);
 char	content_up(t_map *map);
 char	content_down(t_map *map);
 int		ft_atoi_color(char *str);
